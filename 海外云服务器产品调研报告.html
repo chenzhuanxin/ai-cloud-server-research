@@ -1,0 +1,921 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>海外云服务器产品调研（2026 年 10 月）</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%2312564C'/%3E%3Ccircle cx='13' cy='13' r='5' fill='none' stroke='%23fff' stroke-width='2.2'/%3E%3Cpath d='M10.5 22.5c1.4-2 3.1-3 5-3s3.6 1 5 3' fill='none' stroke='%23C4762A' stroke-width='2.2' stroke-linecap='round'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="https://miaoda.feishu.cn/fonts/css2?family=Noto+Serif+SC:wght@600;700;900&family=Noto+Sans+SC:wght@300;400;500;700&display=swap">
+<script src="https://cdn.jsdelivr.net/npm/echarts@5.5.1/dist/echarts.min.js"></script>
+<style>
+:root{
+  --ink:#1F2329;
+  --ink-2:#646A73;
+  --ink-3:#8A939B;
+  --line:#DEE3E8;
+  --line-2:#EDF1F4;
+  --primary:#12564C;
+  --primary-soft:#E8F0EE;
+  --accent:#C4762A;
+  --accent-soft:#FAEFE3;
+  --bg:#FFFFFF;
+  --bg-soft:#F7F9FA;
+  --serif:"Noto Serif SC","Songti SC",Georgia,"Microsoft YaHei",serif;
+  --sans:"Noto Sans SC","PingFang SC","Microsoft YaHei",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+}
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  margin:0;background:var(--bg);color:var(--ink);
+  font-family:var(--sans);font-weight:400;font-size:16px;line-height:1.78;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:1120px;margin:0 auto;padding:0 28px;}
+
+/* ===== 报头 ===== */
+.masthead{border-bottom:2px solid var(--ink);padding:56px 0 22px;margin-bottom:0;}
+.kicker{
+  font-size:13px;letter-spacing:.14em;color:var(--primary);
+  font-weight:700;margin:0 0 18px;text-transform:none;
+}
+h1.title{
+  font-family:var(--serif);font-weight:900;
+  font-size:clamp(28px,4.6vw,50px);line-height:1.22;letter-spacing:-.01em;
+  margin:0 0 16px;max-width:20em;
+}
+.subtitle{font-size:17px;color:var(--ink-2);margin:0 0 26px;max-width:44em;line-height:1.7;}
+.meta-row{
+  display:flex;flex-wrap:wrap;gap:10px 34px;font-size:13.5px;color:var(--ink-2);
+  border-top:1px solid var(--line);padding-top:14px;
+}
+.meta-row b{color:var(--ink);font-weight:700;}
+
+.strip{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:0;
+  border-bottom:1px solid var(--line);margin-bottom:0;
+}
+.strip .cell{padding:22px 22px 22px 0;border-right:1px solid var(--line-2);}
+.strip .cell:last-child{border-right:0;}
+.strip .num{
+  font-family:var(--serif);font-weight:700;font-size:clamp(22px,3.1vw,34px);
+  color:var(--primary);line-height:1.1;font-variant-numeric:tabular-nums;
+}
+.strip .lbl{font-size:13px;color:var(--ink-2);margin-top:7px;line-height:1.55;}
+
+/* ===== 章节 ===== */
+section{padding:54px 0 8px;border-bottom:1px solid var(--line-2);}
+section:last-of-type{border-bottom:0;}
+h2.sec{
+  font-family:var(--serif);font-weight:700;font-size:clamp(21px,2.6vw,28px);
+  margin:0 0 8px;line-height:1.3;display:flex;gap:14px;align-items:baseline;
+}
+h2.sec .no{
+  font-size:13px;font-weight:700;color:var(--accent);letter-spacing:.08em;
+  font-variant-numeric:tabular-nums;flex:none;padding-top:6px;
+}
+.lede{font-size:16.5px;color:var(--ink-2);max-width:46em;margin:0 0 26px;line-height:1.8;}
+p{margin:0 0 16px;}
+h3{font-family:var(--serif);font-weight:600;font-size:18.5px;margin:30px 0 12px;}
+
+/* ===== 表格 ===== */
+.tablewrap{overflow-x:auto;margin:0 0 10px;border:1px solid var(--line);}
+table{border-collapse:collapse;width:100%;table-layout:fixed;min-width:1120px;}
+thead th{
+  background:var(--bg-soft);text-align:left;font-weight:700;font-size:13.5px;
+  color:var(--ink-2);padding:12px 14px;border-bottom:1px solid var(--line);
+  vertical-align:bottom;line-height:1.5;
+}
+tbody td{
+  padding:14px;border-bottom:1px solid var(--line-2);vertical-align:top;
+  font-size:14px;line-height:1.68;overflow-wrap:anywhere;
+}
+tbody tr:last-child td{border-bottom:0;}
+tbody tr:hover{background:#FCFDFD;}
+.pname{font-weight:700;font-size:14.5px;}
+.dev{display:block;color:var(--ink-3);font-size:12.5px;margin-top:3px;line-height:1.5;}
+.score{
+  font-family:var(--serif);font-weight:700;font-size:19px;color:var(--primary);
+  font-variant-numeric:tabular-nums;display:block;
+}
+.score.na{color:var(--ink-3);font-size:15px;}
+.basis{display:block;color:var(--ink-3);font-size:12px;margin-top:5px;line-height:1.55;}
+a{color:var(--primary);text-decoration:none;border-bottom:1px solid rgba(18,86,76,.35);}
+a:hover{border-bottom-color:var(--primary);}
+a.ext::after{content:"↗";font-size:.78em;vertical-align:.18em;margin-left:2px;color:var(--ink-3);}
+.note-inline{color:var(--ink-3);font-size:12.5px;}
+.tag{
+  display:inline-block;font-size:12px;font-weight:700;line-height:1.5;
+  padding:1px 8px;border:1px solid var(--line);color:var(--ink-2);
+  background:var(--bg-soft);margin-bottom:6px;margin-right:4px;
+}
+.tag.cat-video{color:#0E4A41;background:#E8F0EE;border-color:#C9DCD6;}
+.tag.cat-live{color:#7A4712;background:var(--accent-soft);border-color:#E7D2B8;}
+.tag.cat-clone{color:#1F4E79;background:#E8EFF5;border-color:#C9D8E6;}
+.tag.cat-interactive{color:#4C5636;background:#EFF1E6;border-color:#D5DAC4;}
+.tag.free{color:#fff;background:var(--primary);border-color:var(--primary);}
+.tag.paid{color:#7A4712;background:var(--accent-soft);border-color:#E7D2B8;}
+ul.tight{margin:0;padding-left:18px;}
+ul.tight li{margin-bottom:5px;}
+
+/* ===== 图表 ===== */
+.chart-card{border:1px solid var(--line);padding:22px 20px 12px;margin:0 0 10px;background:var(--bg);}
+.chart-title{font-family:var(--serif);font-weight:600;font-size:16.5px;margin:0 0 4px;}
+.chart-sub{font-size:13px;color:var(--ink-2);margin:0 0 14px;line-height:1.62;}
+.chart{width:100%;height:520px;}
+.chart.tall{height:640px;}
+.caption{font-size:12.5px;color:var(--ink-3);line-height:1.7;margin:6px 0 0;}
+
+/* ===== 结论块 ===== */
+.findings{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border-top:1px solid var(--line);}
+.findings .f{padding:24px 24px 8px 0;border-right:1px solid var(--line-2);}
+.findings .f:last-child{border-right:0;padding-right:0;}
+.findings .f .t{font-family:var(--serif);font-weight:700;font-size:16.5px;margin:0 0 8px;line-height:1.5;}
+.findings .f p{font-size:14px;color:var(--ink-2);line-height:1.72;margin:0;}
+
+/* ===== 时间线 ===== */
+.timeline{margin:6px 0 0;position:relative;}
+.timeline::before{
+  content:"";position:absolute;top:11px;bottom:11px;
+  left:116.5px;width:1px;background:var(--line);
+}
+.tnode{display:grid;grid-template-columns:104px 26px 1fr;align-items:start;}
+.tnode .when{
+  font-size:13px;font-weight:700;color:var(--primary);text-align:right;
+  padding-right:10px;line-height:22px;font-variant-numeric:tabular-nums;
+}
+.tnode .axis{display:flex;justify-content:center;}
+.tnode .dot{position:relative;z-index:1;width:10px;height:10px;border-radius:50%;background:#fff;border:2px solid var(--primary);margin-top:6px;}
+.tnode.hot .dot{background:var(--accent);border-color:var(--accent);}
+.tnode .body{padding:0 0 22px 14px;}
+.tnode:last-child .body{padding-bottom:0;}
+.tnode .what{font-weight:700;font-size:15px;margin:0 0 3px;line-height:1.55;}
+.tnode .why{font-size:14px;color:var(--ink-2);margin:0;line-height:1.7;}
+
+/* ===== 待确认 ===== */
+.todo{border-top:1px solid var(--line);}
+.todo .t{display:grid;grid-template-columns:34px 1fr;gap:12px;padding:14px 0;border-bottom:1px solid var(--line-2);}
+.todo .t .n{font-family:var(--serif);font-weight:700;color:var(--accent);font-variant-numeric:tabular-nums;font-size:15px;}
+.todo .t .c{font-size:14px;line-height:1.72;color:var(--ink);}
+.todo .t .c b{font-weight:700;}
+
+/* ===== 信源索引 ===== */
+.srcgrp{margin-bottom:28px;}
+.srcgrp h3{margin-top:0;}
+.srclist{margin:0;padding:0;}
+.srcitem{display:grid;grid-template-columns:112px 1fr;gap:12px;margin-bottom:12px;list-style:none;}
+.srclabel{font-size:12.5px;color:var(--ink-3);font-weight:700;line-height:1.6;}
+.srcbody{font-size:14px;line-height:1.7;overflow-wrap:anywhere;}
+.srcfield{display:block;margin-top:2px;font-size:12.5px;color:var(--ink-3);}
+
+footer{padding:34px 0 56px;color:var(--ink-3);font-size:13px;line-height:1.8;}
+footer b{color:var(--ink-2);}
+
+@media (max-width:960px){
+  .strip{grid-template-columns:repeat(2,1fr);}
+  .strip .cell:nth-child(2){border-right:0;}
+  .strip .cell{border-bottom:1px solid var(--line-2);padding-right:16px;}
+  .strip .cell:nth-child(3),.strip .cell:nth-child(4){border-bottom:0;}
+  .findings{grid-template-columns:1fr;}
+  .findings .f{border-right:0;border-bottom:1px solid var(--line-2);padding:20px 0 14px;}
+  .findings .f:last-child{border-bottom:0;}
+  .tablewrap{border:0;overflow:visible;}
+  table{min-width:0;table-layout:auto;display:block;}
+  thead{display:none;}
+  tbody{display:block;}
+  tbody tr{display:block;border:1px solid var(--line);margin-bottom:14px;padding:4px 0;}
+  tbody td{display:grid;grid-template-columns:88px 1fr;gap:10px;border-bottom:1px solid var(--line-2);padding:10px 14px;font-size:13.5px;}
+  tbody td:last-child{border-bottom:0;}
+  tbody td::before{
+    content:attr(data-label);font-size:12.5px;color:var(--ink-3);font-weight:700;line-height:1.6;
+  }
+  .chart{height:640px;}
+  .chart.tall{height:840px;}
+  .tnode{grid-template-columns:78px 20px 1fr;}
+  .tnode .when{font-size:12px;padding-right:7px;}
+  .tnode .body{padding-left:10px;}
+  .timeline::before{left:87.5px;}
+  .meta-row{font-size:14px;}
+  .strip .lbl{font-size:13.5px;}
+  .findings .f p{font-size:14.5px;}
+  tbody td{font-size:14.5px;grid-template-columns:98px 1fr;}
+  tbody td::before{font-size:13px;}
+  .dev{font-size:14px;}
+  .tablewrap a.ext{display:inline-block;padding:10px 0;}
+  .srcitem{grid-template-columns:1fr;gap:2px;}
+  .srclabel{font-size:13px;}
+  .srcbody{font-size:14.5px;}
+  .kicker{font-size:14px;}
+  .strip .lbl{font-size:14px;}
+  .tag{font-size:14px;}
+  h2.sec .no{font-size:14px;}
+}
+@media (max-width:520px){
+  .wrap{padding:0 16px;}
+  .chart{height:720px;}
+  .tnode{grid-template-columns:66px 16px 1fr;}
+  .timeline::before{left:73.5px;}
+}
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="wrap">
+    <p class="kicker">云服务器调研 · 海外（非中国大陆）· 2026 年 10 月口径</p>
+    <h1 class="title">海外云服务器产品调研</h1>
+    <p class="subtitle">覆盖大厂云、独立云商与轻量 VPS 三类共 22 个在营产品：免费档到底给多少、最低配置档按什么价格卖、地区与流量的真实成本在哪。国内产品由另一份报告覆盖，此处仅在核验章节作为对照出现。所有数字与网址均附可追溯来源。</p>
+    <div class="meta-row">
+      <span>数据口径：<b>截至 2026-10-08</b></span>
+      <span>计价货币：<b>USD（约合人民币 1 USD≈7.1 CNY）</b></span>
+      <span>信源交叉：<b>官方站点 / 官方文档 / 科技媒体</b></span>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="strip">
+    <div class="cell"><div class="num">22</div><div class="lbl">可评分在营产品（海外在营）</div></div>
+    <div class="cell"><div class="num">12</div><div class="lbl">含免费档 / 免费额度 / 免费试用</div></div>
+    <div class="cell"><div class="num">$2–12</div><div class="lbl">入门付费档月费（约 ¥14–85）</div></div>
+    <div class="cell"><div class="num">4</div><div class="lbl">覆盖产品品类数</div></div>
+  </div>
+</div>
+
+<main class="wrap">
+
+<section>
+  <h2 class="sec"><span class="no">01</span>核心结论</h2>
+  <p class="lede">海外云服务器在 2026 年一季度集体涨价后，已经分成三条互不重叠的产品线：按需计费的大厂云（AWS EC2、Azure VM、Google Compute Engine）、按套餐售卖的独立云商与轻量 VPS（DigitalOcean、Vultr、Hetzner、Lightsail），以及「永久免费档」驱动的特殊供给（Oracle Always Free、Google Cloud 免费层）。免费额度普遍存在但限制严格，而真正的成本差异来自流量与公网 IP 是否单列计费。</p>
+  <div class="findings">
+    <div class="f"><p class="t">永久免费档只有两三家，大部分是限时额度</p><p>22 个在营产品里 12 个提供免费档、免费额度或免费试用，但长期免费的只有 Oracle（Always Free：2 台 AMD VM 加 4 OCPU/24GB 的 Ampere A1、200GB 块存储、每月 10TB 出站）与 Google Cloud（每月 1 台 e2-micro，限定 us-west1/us-central1/us-east1 三区）。AWS 的免费档已经按注册时间分层——2025-07-15 之后注册的账号是 Free Plan，免费额度 6 个月或 credit 用尽为止；Azure 给的是 $200 额度（30 天）加 12 个月部分机型 750 小时。所谓「永久免费 VPS」的聚合站，本轮全部列入仿冒站。</p></div>
+    <div class="f"><p class="t">涨价集中在 2026 上半年，欧洲厂商动作最猛</p><p>谷歌云自 5 月 1 日起调价，北美部分网络服务单价从每 GB 0.04 美元涨到 0.08 美元；Hetzner 自 4 月 1 日起对云服务器与对象存储调价，并在 6 月 15 日落地 Cloud 价格调整，入门 VPS 由 €4.49 提到 €6.49（CAX11 由 €5.34 涨到 €7.13，含 19% VAT）；OVHcloud 的 Public Cloud 在 10 月 1 日上涨 1.4%–21.9%，并把本地盘与公网 IPv4 从套餐里拆出来单独计费。低价 VPS 的「永久便宜」假设在 2026 年被打破。</p></div>
+    <div class="f"><p class="t">入门价差在 3 倍以上，流量与 IP 才是隐形成本</p><p>Vultr 入门 $2.50/月、InterServer 1 slice $3/月、Kamatera 基础档 $4/月、DigitalOcean $4/月，而 AWS Lightsail 与 Linode 是 $5/月、Hostinger KVM 1 促销 $6.49/月。差距不只在价格：OVHcloud 把公网 IPv4 和本地盘改为单独计费，Vultr 的按小时实例每月计费上限 672 小时且停机仍计费，腾讯云国际站入门型套餐促销价 $10.08/年但按新用户资格与周期限定。采购时应把流量、IP、快照与备份全部计入月成本再比较。</p></div>
+  </div>
+</section>
+
+<section>
+  <h2 class="sec"><span class="no">02</span>产品字段总表</h2>
+  <p class="lede">同一行回答同一组问题：谁提供的、属于哪一类云服务器、去哪买、免费用多少、按什么价格卖（海外产品以 USD 原值报价并附约合人民币）、质量与短板在哪。评分为主观共识评分，非厂商指标。</p>
+  <div class="tablewrap">
+    <table>
+      <colgroup>
+        <col style="width:15%"><col style="width:7%"><col style="width:13%">
+        <col style="width:12%"><col style="width:17%"><col style="width:16%"><col style="width:20%">
+      </colgroup>
+      <thead>
+        <tr>
+          <th>产品 / 开发方</th>
+          <th>评分</th>
+          <th>评分依据</th>
+          <th>官方入口</th>
+          <th>免费额度</th>
+          <th>价格</th>
+          <th>特点与局限</th>
+        </tr>
+      </thead>
+      <tbody id="mainTable">
+      </tbody>
+    </table>
+  </div>
+  <p class="caption" id="tableCaption"></p>
+</section>
+
+<section>
+  <h2 class="sec"><span class="no">03</span>综合质量评分对比</h2>
+  <p class="lede">评分为主观共识评分，由作者综合官方价格文档、科技媒体横评结论与用户社区口碑给出，满分 10 分。评估维度：入门档价格与续费价差、免费额度实用度、区域与节点覆盖、网络质量与流量政策、控制台与 API 完备度、稳定性与工单响应；四类产品（大厂云 / 独立云商 / 轻量 VPS / 免费用量）按自身核心维度加权。</p>
+  <div class="chart-card">
+    <p class="chart-title">（22）个对象的综合质量评分（满分 10）</p>
+    <p class="chart-sub">颜色区分产品类别：深青为大厂云，赭色为独立云商，蓝为轻量 VPS，橄榄为免费用量档。</p>
+    <div class="chart tall" id="chartScore"></div>
+    <p class="caption">数据口径：2026-10-08。评分非厂商官方指标。</p>
+  </div>
+  <p>第一梯队是 AWS EC2（9.3）、Azure VM（9.1）、Google Compute Engine（9.0）、Oracle Always Free（8.9）与 DigitalOcean（8.8）——大厂云的分差来自区域数量、合规资质与企业级配套，Oracle 的高分几乎全部来自「永久免费档的具体额度写得比谁都清楚」。独立云商集中在 7.0–8.8：Hetzner 靠同价位最高的内存与流量拿分，但 2026 年涨价后优势收窄；Rackspace（6.5）已经转向托管云，不再参与自助 VPS 的比较。四类产品不宜直接横向比较：大厂云比的是服务矩阵，独立云商比的是单价与流量政策，轻量 VPS 比的是开箱体验。</p>
+</section>
+
+<section>
+  <h2 class="sec"><span class="no">04</span>价格与免费额度的位置</h2>
+  <p class="lede">把「最低付费月费」和「质量评分」放进同一坐标系，看免费与付费档的分布规律。</p>
+  <div class="chart-card">
+    <p class="chart-title">最低付费月费与质量评分的关系</p>
+    <p class="chart-sub">横轴为可查证的最低付费月费（换算为人民币元/月，完全免费者记为 0）；纵轴为综合评分。USD 按 1 USD≈7.1 CNY 折算，欧元先按 €1≈$1.08 折美元再换算，均为量级参考。</p>
+    <div class="chart" id="chartPrice"></div>
+    <p class="caption">未纳入本图的条目及其原因见总表与待确认清单。</p>
+  </div>
+  <p>海外云服务器呈现明显的「便宜不等于低分」：月费 14–50 元（约 $2–7）区间聚集了 7.0–8.9 分的产品，其中 Oracle Always Free 是唯一的 0 元档（真永久免费），Vultr、InterServer、Kamatera 把门槛压到 $2.50–4/月。反过来，价格最高的几家（Azure VM 约 $8/月、GCE 付费档约 $6/月）评分高但单价也高，且流量与公网 IP 常常另计。把 2026 年的涨价因素算进来后，结论更清楚：入门价的排序没有变，但「续费会不会涨」已经成了独立变量——Hetzner 入门档涨了 45%、OVHcloud 把 IP 与磁盘拆出套餐，这两件事比任何一家新促销都更影响长期成本。价格口径不明确的条目（Scaleway、Namecheap、UpCloud、Rackspace）未纳入本图。</p>
+</section>
+
+<section>
+  <h2 class="sec"><span class="no">05</span>2024—2026 关键节点</h2>
+  <p class="lede">按公开可查的官方公告与媒体报道时点排列，用于理解价格与免费额度是怎么变成今天这样的。</p>
+  <div class="timeline" id="timeline"></div>
+  <p style="margin-top:22px;">把这些节点连起来看：2025 年 7 月 AWS 把免费档改成按注册时间分层，免费试用开始收紧；2026 年 1 月谷歌云宣布涨价、4 月 Hetzner 与 OVHcloud 落地新价、5 月谷歌云调价生效、6 月 Hetzner 完成 Cloud 价格调整、10 月 OVHcloud 把公网 IP 与本地盘拆出套餐单独计费。与此同时 AI 需求把云基础设施支出推到单季 1434 亿美元、同比 +43%。涨价与扩容同时发生，是 2026 年海外云服务器市场的基本面。</p>
+</section>
+
+<section>
+  <h2 class="sec"><span class="no">06</span>厂商 / 能力核验</h2>
+  <p class="lede">候选清单与检索中重点点名的厂商与方向，逐一给出核验结论；产品线已转型、免费档口径不清或属于非官方渠道的，如实写。</p>
+  <div class="tablewrap">
+    <table>
+      <colgroup><col style="width:16%"><col style="width:16%"><col style="width:68%"></colgroup>
+      <thead>
+        <tr><th>厂商 / 产品</th><th>核验结论</th><th>说明</th></tr>
+      </thead>
+      <tbody id="verifyTable"></tbody>
+    </table>
+  </div>
+</section>
+
+<section>
+  <h2 class="sec"><span class="no">07</span>信源索引</h2>
+  <p class="lede">按产品分组，标注每条来源支撑哪些字段。三类信源交叉验证：官方站点、官方文档 / 定价页、科技媒体。</p>
+  <div id="sourceIndex"></div>
+</section>
+
+<section>
+  <h2 class="sec"><span class="no">08</span>待确认与无法核实项</h2>
+  <p class="lede">以下条目在本轮公开检索范围内无法取得可靠官方口径，如实列出，未作推测填补。</p>
+  <div class="todo" id="todoList"></div>
+</section>
+
+<footer>
+  <p><b>方法与免责：</b>本报告信息采集截止北京时间 2026 年 10 月 8 日，海外产品以 USD 原值报价并约合人民币（按 1 USD ≈ 7.1 CNY 估算；欧元档先按 €1 ≈ $1.08 折美元再换算），均为量级参考。“云服务器质量评分”为主观共识评分，由作者综合官方价格文档、科技媒体横评结论与用户社区口碑给出，非厂商官方指标，也不等同于客观基准测试；同一配置在不同区域、线路与计费周期下实付价格差异较大。</p>
+  <p><b>已剔除的非官方来源：</b>以「永久免费 VPS」「免费云服务器」为名的聚合页与跳转页、以及第三方自称官方的低价代理页，均不作为官方依据；带推广性质的内容源已在引用时单独标注。</p>
+  <p>价格与免费额度变动频繁，正式采购前请以厂商官方页面与结账页为准。</p>
+</footer>
+
+<script>
+/* =====================================================================
+   填充说明（按同批规范填充，勿改动 CSS 与渲染函数结构）：
+   1. PRODUCTS：每个产品一个对象。cat 取值 hyper/idc/light/free；
+      score 为 10 分制主观共识分（可小数，null 表示不评分）；
+      avail 取值 free（有免费额度）/ paid（付费或仅 API）；
+      site 为官方域名（label 显示名，url 链接），已逐条核验非仿冒站；
+      free 写免费额度具体口径；price 写 USD 原值并附 cny 约合人民币；
+      basis 首句写「共识区间 X–Y」，随后为 10-25 字评分依据；note 为特点与局限。
+   2. PRICE_POINTS：x=最低付费月费（元，完全免费记 0），y=评分，free=true/false，lp=标签位置。
+   3. TIMELINE：{when, what, why, hot}，hot=true 表示关键节点。
+   4. VERIFIED：{name, verdict, note}，verdict 含 <span class="tag">…</span>。
+   5. SOURCES：按产品分组，items 为 [来源类型, 链接HTML, 支撑字段]。
+   6. TODOS：[产品, 待确认说明]。
+===================================================================== */
+
+const PRODUCTS = [
+  {
+    name:"Amazon EC2", dev:"Amazon Web Services（亚马逊）", cat:"hyper",
+    score:9.3, avail:"free",
+    site:{label:"aws.amazon.com/ec2/pricing", url:"https://aws.amazon.com/ec2/pricing/"},
+    free:"Free Tier：2025-07-15 之后注册的新账号为 Free Plan（免费额度 6 个月或 credit 用尽为止，含 t3.micro、t4g.micro/small、c7i-flex.large 等机型）；此前注册的老账号保留 12 个月 t2/t3.micro 每月 750 小时；t4g.small 每月 750 小时免费活动曾标注截至 2026-12-31",
+    price:"按需按秒计费（最低 60 秒），单价随区域、机型与操作系统变化；入门 t3.micro / t4g.small 档位约 $0.01/小时量级",
+    cny:"约 ¥0.07/小时起（量级参考，按 1 USD≈7.1 CNY）",
+    basis:"共识区间 9.0–9.5；区域最多、服务矩阵与文档最全",
+    note:"全球区域与可用区数量、服务矩阵、企业级合规资质均为行业标杆，按秒计费且计费口径透明；局限是免费档已按注册时间分层，新账号免费期仅 6 个月或 credit 用尽为止，同配置单价高于独立云商。"
+  },
+  {
+    name:"Azure Virtual Machines", dev:"Microsoft Azure（微软）", cat:"hyper",
+    score:9.1, avail:"free",
+    site:{label:"azure.microsoft.com/pricing/free-services", url:"https://azure.microsoft.com/en-us/pricing/free-services/"},
+    free:"新账号 $200 额度（30 天内使用）+ 12 个月免费额度：B1s、B2pts v2、B2ats v2 各每月 750 小时；另有 55+ 永久免费服务项",
+    price:"按秒计费；入门 B 系列 Linux 实例约 $8/月起（随区域与操作系统浮动）",
+    cny:"约 ¥57/月起（量级参考）",
+    basis:"共识区间 8.8–9.3；微软生态与混合云集成最强，价格偏高",
+    note:"与 Windows Server、Active Directory、SQL Server 及 Microsoft 365 生态集成最好，混合云与合规覆盖广；局限是入门单价高于同档独立云商，Windows 授权另计，免费额度的机型与时长限制较细。"
+  },
+  {
+    name:"Google Compute Engine", dev:"Google Cloud（谷歌）", cat:"hyper",
+    score:9.0, avail:"free",
+    site:{label:"cloud.google.com/compute/pricing", url:"https://cloud.google.com/compute/pricing"},
+    free:"与 Google Cloud 免费层共用：每月 1 台 e2-micro（限 us-west1/us-central1/us-east1）+ 30GB 标准持久盘 + 1GB 出站流量；新账号另赠 $300（90 天）",
+    price:"按秒计费（最低 1 分钟）；入门 e2-micro 付费档约 $6/月起（美区，区域差异较大）",
+    cny:"约 ¥43/月起（量级参考）",
+    basis:"共识区间 8.8–9.2；网络与数据/AI 能力突出，区域少于 AWS",
+    note:"全球网络质量与 BigQuery、Vertex AI 等数据与 AI 服务联动紧密，长期使用折扣（SUD/CUD）机制清晰；局限是区域数量少于 AWS，免费层仅限美国三个区域，2026 年 5 月起部分网络服务已调价。"
+  },
+  {
+    name:"Oracle Cloud Infrastructure（Always Free）", dev:"Oracle（甲骨文）", cat:"free",
+    score:8.9, avail:"free",
+    site:{label:"oracle.com/cloud/free", url:"https://www.oracle.com/cloud/free/"},
+    free:"永久免费（Always Free）：2 台 AMD VM（各 1/8 OCPU、1GB 内存）；Ampere A1 合计 4 OCPU + 24GB 内存（可拆为最多 4 台，每月 3000 OCPU 小时 + 18000 GB 小时）；200GB 块存储；每月 10TB 出站流量",
+    price:"Always Free 档 0 元；付费实例按小时计费（A1 OCPU 约 $0.01/小时、内存约 $0.0015/GB/小时）",
+    cny:"免费档 ¥0；付费档约 ¥0.07/OCPU·小时起",
+    basis:"共识区间 8.7–9.1；免费额度是全行业最慷慨的永久档",
+    note:"本轮核验中唯一同时给出「永久免费」与具体额度（含 ARM 4 OCPU/24GB 与 10TB 出站）的大厂云，适合长期跑小型服务；局限是热门区域免费 ARM 容量常被占满、需抢开机，控制台与文档体验弱于三大云。"
+  },
+  {
+    name:"AWS Free Tier（免费档）", dev:"Amazon Web Services（亚马逊）", cat:"free",
+    score:8.6, avail:"free",
+    site:{label:"aws.amazon.com/free", url:"https://aws.amazon.com/free/"},
+    free:"40+ 永久免费项（如 Lambda 每月 100 万次请求、DynamoDB 25GB 存储）；2025-07-15 之后注册的新账号为 Free Plan，计算类免费额度为 6 个月或 credit 用尽为止",
+    price:"额度内 0 元；超出后按对应服务按量计费",
+    cny:"免费档 ¥0；超出按量计费",
+    basis:"共识区间 8.4–8.8；免费项最多，但计算档有期限",
+    note:"永久免费项数量是三大云里最多的，适合做无服务器与数据类原型验证；局限是计算类的免费期已从 12 个月缩短为 6 个月（新账号），且用量超限直接转按量计费，需要设置预算告警。"
+  },
+  {
+    name:"Google Cloud 免费层", dev:"Google Cloud（谷歌）", cat:"free",
+    score:8.4, avail:"free",
+    site:{label:"cloud.google.com/free/docs/free-cloud-features", url:"https://cloud.google.com/free/docs/free-cloud-features"},
+    free:"每月 1 台非抢占式 e2-micro 实例（限 us-west1/us-central1/us-east1）+ 30GB 标准持久盘 + 1GB 北美出站；另含 Firestore、Cloud Run 等免费额度",
+    price:"免费层内 0 元；超出部分按各服务定价计费",
+    cny:"免费档 ¥0",
+    basis:"共识区间 8.2–8.6；永久免费但仅限美国三区",
+    note:"永久免费的 e2-micro 对整理小工具与学习环境足够，配合 Cloud Run、Firestore 免费额度可搭完整原型；局限是限定美国三个区域、不含 IPv4 静态地址之外的流量优惠，亚太访问延迟高。"
+  },
+  {
+    name:"IBM Cloud（Lite 免费档）", dev:"IBM", cat:"free",
+    score:7.7, avail:"free",
+    site:{label:"ibm.com/cloud/free", url:"https://www.ibm.com/cloud/free/"},
+    free:"Lite 账号 40+ 永久免费产品（Lite 计划永不收费、永不过期）；首次升级为随用随付账号可获 $200 额度（30 天）；另有 Bare Metal for VPC $1000 额度（120 天）等试用",
+    price:"Lite 额度内 0 元；付费虚拟服务器按小时计费，官网价格页为准",
+    cny:"免费档 ¥0；付费档以官网为准",
+    basis:"共识区间 7.5–7.9；Lite 免费项多，x86 免费实例口径不清",
+    note:"企业级合规与 LinuxONE/Hyper Protect 安全能力是差异化卖点，Lite 账号的永久免费产品数量可观；局限是免费虚拟服务器仅列出 Hyper Protect Virtual Server（LinuxONE，1 vCPU 口径），未见永久免费 x86 VSI，控制台学习成本高。"
+  },
+  {
+    name:"DigitalOcean Droplets", dev:"DigitalOcean", cat:"idc",
+    score:8.8, avail:"free",
+    site:{label:"digitalocean.com/pricing", url:"https://www.digitalocean.com/pricing"},
+    free:"新用户促销额度（常见 $200/60 天，活动条款随时间调整）；无永久免费档",
+    price:"Droplet $4/月起（512MB 内存 / 10GB 盘 / 500GB 流量）；$6/月（1GB / 25GB / 1TB）",
+    cny:"约 ¥28/月起",
+    basis:"共识区间 8.6–9.0；开发者体验与文档社区口碑最好",
+    note:"以「简单可预期」著称，教程库与技术文档质量高，适合个人开发者与小团队；2026 年起改为按秒计费（最低 60 秒），对短时任务更友好；局限是价格高于同档新锐 VPS，区域数量少于大厂。"
+  },
+  {
+    name:"Hetzner Cloud", dev:"Hetzner Online（德国）", cat:"idc",
+    score:8.7, avail:"paid",
+    site:{label:"hetzner.com/cloud", url:"https://www.hetzner.com/cloud/"},
+    free:"无公开免费额度（新用户偶有体验券活动，不作为固定权益）",
+    price:"2026-06-15 价格调整后入门 VPS 约 €6.49/月起（调整前 €4.49）；CAX11 由 €5.34 上调至 €7.13/月（含 19% VAT）",
+    cny:"约 ¥50/月起（€1≈$1.08 折美元后按 1 USD≈7.1 CNY）",
+    basis:"共识区间 8.5–8.9；同价位内存与流量最高，涨价后优势收窄",
+    note:"欧洲性价比标杆，同价位给到的内存、NVMe 盘与流量（EU 区域 20TB）显著高于美国同业，价格与规则透明；局限是 2026 年涨价幅度大（入门档约 45%），亚太无节点，部分老价格机型改动会触发迁移。"
+  },
+  {
+    name:"Vultr", dev:"Vultr（The Constant Company）", cat:"idc",
+    score:8.4, avail:"free",
+    site:{label:"vultr.com/pricing", url:"https://www.vultr.com/pricing/"},
+    free:"新用户 $300 免费额度（活动条款随时间调整）",
+    price:"入门 $2.50/月起（0.5GB 内存，按小时 $0.0034/小时）；常规 1GB 档 $5–6/月",
+    cny:"约 ¥18/月起",
+    basis:"共识区间 8.2–8.6；节点数量多、开通快，按小时规则需留意",
+    note:"全球节点数量在独立云商里领先，支持高频计算、裸金属与 GPU 机型，按小时计费利于短时任务；局限是按小时实例每月计费上限 672 小时、按量实例停机不等于停止计费，低价档位多为共享 vCPU。"
+  },
+  {
+    name:"Linode（Akamai）", dev:"Akamai（原 Linode）", cat:"idc",
+    score:8.5, avail:"free",
+    site:{label:"linode.com/pricing", url:"https://www.linode.com/pricing/"},
+    free:"新用户赠额度（常见 $100/60 天，活动随时间调整）",
+    price:"Nanode 1GB $5/月起（1 vCPU / 25GB SSD / 1TB 流量）",
+    cny:"约 ¥36/月起",
+    basis:"共识区间 8.3–8.7；定价长期稳定、API 与文档口碑好",
+    note:"被 Akamai 收购后接入全球边缘网络，定价多年来保持稳定、API 与 CLI 生态成熟，适合长期托管中小业务；局限是促销力度小于新锐 VPS，入门档配置与价格已被 Vultr、InterServer 反超。"
+  },
+  {
+    name:"OVHcloud VPS", dev:"OVHcloud（法国）", cat:"idc",
+    score:8.0, avail:"paid",
+    site:{label:"ovhcloud.com/en/vps", url:"https://www.ovhcloud.com/en/vps/"},
+    free:"无免费额度（含每日自动备份与反 DDoS，属套餐内含项）",
+    price:"VPS-1 起 $4.54/月（2 vCore / 4GB / 40GB NVMe / 无限流量、500Mbps 公网带宽）",
+    cny:"约 ¥32/月起",
+    basis:"共识区间 7.8–8.2；套餐含备份与反 DDoS，10 月起 IP 与磁盘另计",
+    note:"欧洲老牌 IaaS，VPS 套餐默认含每日自动备份、反 DDoS 与 99.9% SLA，数据中心符合 GDPR 且不受美国 CLOUD Act 约束；局限是 2026-10-01 起实例价格上调 1.4%–21.9%，公网 IPv4 与本地盘改为单独计费，实付高于刊例。"
+  },
+  {
+    name:"Scaleway Instances", dev:"Scaleway（法国，Iliad 集团）", cat:"idc",
+    score:7.8, avail:"paid",
+    site:{label:"scaleway.com/en/pricing", url:"https://www.scaleway.com/en/pricing/"},
+    free:"待确认",
+    price:"待确认（官网价格页为导航式汇总，本轮未取到可引用的实例单价）",
+    cny:"待确认",
+    basis:"共识区间 7.6–8.0；欧洲主权云与产品线宽度突出，价格透明度待补",
+    note:"产品线极宽（实例、裸金属、GPU、容器、Serverless、Apple 芯片机），主打欧洲数据主权与本地化合规；局限是官网定价结构分散、入门档单价需进各产品页逐项查询，本轮未取得可引用价格。"
+  },
+  {
+    name:"IONOS VPS+", dev:"IONOS（德国，United Internet）", cat:"idc",
+    score:7.6, avail:"paid",
+    site:{label:"ionos.com/servers/vps", url:"https://www.ionos.com/servers/vps/"},
+    free:"无长期免费档（30 天退款保证）",
+    price:"VPS S+（1 vCore / 2GB / 60GB NVMe）前 3 个月 $2/月（1 年期，标准价约 $6/月）；VPS M+（2 vCore / 4GB / 120GB）$5/月（标准约 $14/月）",
+    cny:"促销期约 ¥14/月起，标准价约 ¥43/月起",
+    basis:"共识区间 7.4–7.8；欧洲最大 IaaS 之一，低价为短期促销",
+    note:"欧洲用户规模最大的 IaaS 供应商之一，31 个数据中心、承诺 99.99%+ 可用性与不限流量，含 1 键应用安装；局限是低价档为前 3 个月促销、需按年承诺，恢复标准价后性价比回落，亚洲节点缺失。"
+  },
+  {
+    name:"Contabo Cloud VPS", dev:"Contabo（德国）", cat:"idc",
+    score:7.9, avail:"paid",
+    site:{label:"contabo.com/en/vps", url:"https://contabo.com/en/vps/"},
+    free:"无免费额度",
+    price:"Core / Cloud VPS €4.50/月起（12 个月期）；Cloud VPS 4（4 vCPU / 8GB / 100GB SSD）约 €5.24/月（24 个月期口径）",
+    cny:"约 ¥35/月起",
+    basis:"共识区间 7.7–8.1；同价位内存与硬盘给到最多，IO 口碑一般",
+    note:"以「同样的钱拿到更多内存和硬盘」为卖点，适合跑备份节点、轻量大模型与低负载服务；局限是超售与磁盘 IO 表现口碑参差、开通与工单响应较慢，套餐命名（Core/Cloud）在不同页面口径不完全一致。"
+  },
+  {
+    name:"UpCloud", dev:"UpCloud（芬兰）", cat:"idc",
+    score:7.9, avail:"paid",
+    site:{label:"upcloud.com/pricing", url:"https://upcloud.com/pricing/"},
+    free:"待确认",
+    price:"待确认（第三方口径按小时约 €0.004 起，官网未取到可引用的月价）",
+    cny:"待确认",
+    basis:"共识区间 7.7–8.1；MaxIOPS 存储性能与 SLA 口碑好，价格偏高",
+    note:"以 MaxIOPS 存储（宣称 10 万 IOPS）与 99.99% SLA 为差异化卖点，欧洲多节点、API 与控制台体验良好；局限是价格高于同档独立云商，亚太节点少，本轮未在官网取到可引用单价。"
+  },
+  {
+    name:"InterServer Cloud Compute", dev:"InterServer（美国）", cat:"idc",
+    score:7.2, avail:"paid",
+    site:{label:"interserver.net/vps", url:"https://www.interserver.net/vps/"},
+    free:"无免费额度（价格长期稳定，按月计费无长期折扣）",
+    price:"1 slice $3/月（1 核 / 2GB / 40GB SSD / 2TB 流量 / 10Gbps 共享端口）；2 slices $6/月（1 核 / 4GB / 80GB / 4TB）",
+    cny:"约 ¥21/月起",
+    basis:"共识区间 7.0–7.4；单价极低且长期不变，机房集中在美国",
+    note:"2003 年成立的老牌主机商，采用切片式配置（1–32 slice 平滑加购）、按月计费无长期绑定，单价是全表最低之一；局限是网络与机房集中在美国东海岸，亚洲访问延迟偏高，高级支持需 8 slice 以上。"
+  },
+  {
+    name:"Kamatera", dev:"Kamatera（以色列）", cat:"idc",
+    score:7.4, avail:"free",
+    site:{label:"kamatera.com/pricing", url:"https://www.kamatera.com/pricing/"},
+    free:"30 天免费试用",
+    price:"基础档 $4/月起（1 vCPU / 1GB / 20GB NVMe / 5TB 流量）；Standard $25/月起（2 vCPU / 2GB）；按分钟计费",
+    cny:"约 ¥28/月起",
+    basis:"共识区间 7.2–7.6；配置自由度最高、按分钟计费，基础档性能波动大",
+    note:"CPU、内存、磁盘与流量可完全自定义组合，全球 18+ 数据中心，按分钟计费适合弹性场景，提供 30 天免费试用；局限是基础档为共享可用型 CPU（Type A，非独占），性能波动明显，价格页在不同语言版本口径略有差异。"
+  },
+  {
+    name:"AWS Lightsail", dev:"Amazon Web Services（亚马逊）", cat:"light",
+    score:8.3, avail:"free",
+    site:{label:"aws.amazon.com/lightsail/pricing", url:"https://aws.amazon.com/lightsail/pricing/"},
+    free:"90 天免费试用（需选购付费套餐）；另有 3 个月免费 VPS 活动（1 vCPU / 2GB / 60GB SSD / 3TB 流量）",
+    price:"$5/月起（0.5GB 内存 / 2 vCPU / 20GB SSD / 1TB 流量）；$7/月（1GB）、$12/月（2GB）、$24/月（4GB）",
+    cny:"约 ¥36/月起",
+    basis:"共识区间 8.1–8.5；AWS 生态入口最省心，单价高于独立云商",
+    note:"把计算、存储与流量打包成固定月费，自带静态 IP、DNS 与一键应用镜像，是进入 AWS 生态最省心的方式；局限是同配置单价明显高于 Vultr、InterServer 等独立云商，超出套餐流量按 $0.09/GB 计费。"
+  },
+  {
+    name:"Hostinger VPS（KVM）", dev:"Hostinger（立陶宛）", cat:"light",
+    score:7.9, avail:"paid",
+    site:{label:"hostinger.com/vps-hosting", url:"https://www.hostinger.com/vps-hosting/"},
+    free:"无免费额度（30 天退款保证）",
+    price:"KVM 1（1 vCPU / 4GB / 50GB NVMe / 4TB）促销 $6.49/月，续费 $11.99/月；KVM 2（2 vCPU / 8GB / 100GB）促销 $8.99/月，续费 $14.99/月",
+    cny:"促销期约 ¥46/月起，续费约 ¥85/月起",
+    basis:"共识区间 7.7–8.1；促销价极低、含每周备份，续费近乎翻倍",
+    note:"促销期配置与价格极具吸引力，含每周自动备份、快照、1Gbps 网络与 AI 终端，适合新手与轻量业务；局限是促销价需长周期预付、续费价接近翻倍（$6.49→$11.99），且为纯非托管产品，需自行运维。"
+  },
+  {
+    name:"Tencent Cloud Lighthouse（国际站）", dev:"腾讯云国际（Tencent Cloud）", cat:"light",
+    score:7.5, avail:"paid",
+    site:{label:"tencentcloud.com/products/lighthouse", url:"https://www.tencentcloud.com/products/lighthouse"},
+    free:"待确认（国际站新用户活动档位未在页面固定公示）",
+    price:"Linux 入门型套餐促销 $10.08/年（原价 $50.40/年）；Windows 入门型 $6.00/月",
+    cny:"约 ¥72/年（促销，折合约 ¥6/月），Windows 档约 ¥43/月起",
+    basis:"共识区间 7.3–7.7；促销年费极低，资格与续费价待确认",
+    note:"面向海外的轻量套餐，年付促销价是同类里最低之一，适合做境外落地页与测试环境；局限是促销价限定新用户与活动周期，续费价与资格限制未公示，亚太以外区域节点少于欧美厂商。"
+  },
+  {
+    name:"Rackspace Technology", dev:"Rackspace Technology", cat:"hyper",
+    score:6.5, avail:"paid",
+    site:{label:"rackspace.com/cloud", url:"https://www.rackspace.com/cloud/"},
+    free:"无公开免费额度",
+    price:"待确认（已转向托管云与私有云服务，官网不再公示标准自助 VPS 单价）",
+    cny:"待确认",
+    basis:"共识区间 6.3–6.7；由自助公有云转向托管服务，已不参与 VPS 单价比较",
+    note:"从自助公有云转型为托管云与专业服务商，定价模式改为按托管服务等级与项目报价，适合需要代运维的企业客户；局限是已无标准自助 VPS 产品与公开单价，个人与中小客户不应将其与 $5/月级 VPS 直接比较。"
+  }
+];
+
+const PRICE_POINTS = [
+  {name:'Oracle Always Free', x:0, y:8.9, free:true, lp:'right'},
+  {name:'腾讯云国际站轻量', x:6, y:7.5, free:false, lp:'top'},
+  {name:'IONOS VPS+', x:14, y:7.6, free:false, lp:'bottom'},
+  {name:'Vultr', x:18, y:8.4, free:true, lp:'top'},
+  {name:'InterServer', x:21.3, y:7.2, free:false, lp:'bottom'},
+  {name:'DigitalOcean', x:28.4, y:8.8, free:true, lp:'top'},
+  {name:'Kamatera', x:28.4, y:7.4, free:true, lp:'bottom'},
+  {name:'OVHcloud VPS', x:32.2, y:8.0, free:false, lp:'top'},
+  {name:'Contabo', x:34.5, y:7.9, free:false, lp:'bottom'},
+  {name:'Linode', x:35.5, y:8.5, free:true, lp:'top'},
+  {name:'AWS Lightsail', x:35.5, y:8.3, free:true, lp:'right'},
+  {name:'Google Compute Engine', x:43.3, y:9.0, free:true, lp:'top'},
+  {name:'Hostinger VPS', x:46.1, y:7.9, free:false, lp:'bottom'},
+  {name:'Hetzner Cloud', x:49.8, y:8.7, free:false, lp:'top'},
+  {name:'Azure VM', x:56.8, y:9.1, free:true, lp:'right'}
+];
+
+const TIMELINE = [
+  {when:'2025.07.15', what:'AWS 把免费档改成按注册时间分层', why:'该日期之后注册的 AWS 账号适用 Free Plan——免费额度为 6 个月或 credit 用尽为止，含 t3.micro、t4g.micro/small、c7i-flex.large 等机型；此前注册的账号保留 12 个月 t2/t3.micro 每月 750 小时。免费试用从「人人 12 个月」变成分层制度。', hot:true},
+  {when:'2026.01.27', what:'谷歌云宣布自 5 月 1 日起大幅调价', why:'谷歌宣布对 Google Cloud、CDN Interconnect、Peering 及 AI 与计算基础设施调价，其中北美部分网络服务单价从每 GB 0.04 美元涨到 0.08 美元（翻倍）。这是本轮全球云涨价周期的起点。', hot:true},
+  {when:'2026.04.01', what:'Hetzner 与 OVHcloud 新价生效（欧洲）', why:'Hetzner 自 4 月 1 日起对云服务器、专用服务器与对象存储调价；OVHcloud 的 Public Cloud、Bare Metal 与 VPS 新价同样自 4 月 1 日起适用，客户可在生效前按现价续约最长 2 年。欧洲节点成本在这一天上移。', hot:false},
+  {when:'2026.05.01', what:'谷歌云调价正式生效', why:'从这一天起 Google Cloud、CDN Interconnect、Peering 及 AI 与计算基础设施按新价计费，北美部分网络服务单价翻倍；随后 Google Cloud 在北美、欧洲与亚洲多个数据区域陆续落地新的价格口径。', hot:false},
+  {when:'2026.06.15', what:'Hetzner Cloud 价格调整生效', why:'Hetzner 官方文档确认价格调整自 2026-06-15 08:00 CEST 起对新订单与云实例 rescale 生效；入门档 VPS 由 €4.49 上调至 €6.49（约 +45%），CAX11 由 €5.34 上调至 €7.13/月（含 19% VAT）。官方给出的理由是确保可持续运营。', hot:true},
+  {when:'2026.07.30', what:'全球云基础设施单季支出达 1434 亿美元、同比 +43%', why:'Synergy Research 数据显示 2026 年二季度企业云基础设施服务支出达 1434 亿美元，同比增长 43%，为八年来最高增速、连续 11 个季度加速；AWS、微软、谷歌份额分别为 28%、20%、15%，GenAI 专用云服务同比增长 165%。这是需求端对涨价的支撑。', hot:true},
+  {when:'2026.08.25', what:'OVHcloud 公告 10 月 1 日起 Public Cloud 涨价并把 IP 与磁盘拆出套餐', why:'OVHcloud 公告称 Public Cloud 实例价格自 2026-10-01 起调整，同等配置涨幅 1.4%–21.9%；计算价格不变，但原本包含在实例内的本地存储与公网 IPv4 改为单独计费。同期其专用服务器也按 7-01、8-11、10-01 三个时点分批调价。', hot:true}
+];
+
+const VERIFIED = [
+  {name:'以「永久免费 VPS」「Free VPS Forever」为名的聚合站', verdict:'<span class="tag">仿冒站</span>', note:'此类页面由第三方域名承载，用「永久免费」「无限流量」「无需信用卡」吸引注册，既非厂商官方域名，也无法对应任何厂商的官方定价页。本轮判定依据为域名与厂商公开域名不一致，未纳入信源与价格依据。'},
+  {name:'声称可代购或「低于官网价」的第三方 VPS 代理页', verdict:'<span class="tag">仿冒站</span>', note:'以低价转售 DigitalOcean、Vultr、AWS 等额度的代理页面非官方渠道，账号所有权、续费与服务保障均无从核验，本轮仅采纳厂商官方域名与官方定价页作为价格依据。'},
+  {name:'Rackspace Technology', verdict:'<span class="tag">非此类产品</span>', note:'已从自助公有云转型为托管云与专业服务商，官网不再提供标准自助 VPS 购买路径与公开单价，定价改为按托管服务等级（托管基础设施 / 托管系统运营 / 托管自动化运营）与项目报价。本轮纳入主表仅作对照，并把它标为不参与单价比较的条目。信源：<a class="ext" href="https://www.rackspace.com/cloud/">Rackspace Cloud 官网</a>。'},
+  {name:'AWS 免费档（新老账号并行）', verdict:'<span class="tag">有产品，多线并行</span>', note:'2025-07-15 是分界点：此前注册的账号保留 12 个月 t2/t3.micro 每月 750 小时；此后注册的账号适用 Free Plan，计算类免费额度为 6 个月或 credit 用尽为止。两类账号的免费口径不同，比较「AWS 免费额度」时必须先确认账号注册时间。信源：<a class="ext" href="https://aws.amazon.com/free/">AWS Free Tier 官方页</a>。'},
+  {name:'Google Cloud 永久免费 e2-micro', verdict:'<span class="tag">有产品</span>', note:'确实存在且仍为永久免费，但限制明确：每月 1 台非抢占式 e2-micro，且仅限 us-west1、us-central1、us-east1 三个美国区域，另含 30GB 标准持久盘与 1GB 北美出站流量。把「免费层」理解为全球任意区域免费是常见误读。信源：<a class="ext" href="https://cloud.google.com/free/docs/free-cloud-features">Google Cloud 免费功能官方页</a>。'},
+  {name:'Oracle「Always Free 随时会取消」的传言', verdict:'<span class="tag">有产品</span>', note:'Oracle 官网仍在售并明确标注 Always Free 的永久免费额度（2 台 AMD VM + 4 OCPU/24GB Ampere A1 + 200GB 块存储 + 每月 10TB 出站）；本轮未检索到官方停服或取消公告，传言不采纳。需要注意的是热门区域免费 ARM 容量经常被占满。信源：<a class="ext" href="https://www.oracle.com/cloud/free/">Oracle Cloud Free Tier 官方页</a>。'},
+  {name:'IBM Cloud 免费虚拟服务器', verdict:'<span class="tag">部分具备，待确认</span>', note:'Lite 账号确实提供 40+ 永久免费产品，但免费页列出的虚拟服务器项为 Hyper Protect Virtual Server（运行在 IBM LinuxONE，1 vCPU 口径）；本轮未检索到永久免费的 x86 虚拟服务器（VSI）档位，按部分具备处理。信源：<a class="ext" href="https://www.ibm.com/cloud/free/">IBM Cloud 免费档官方页</a>。'},
+  {name:'Scaleway', verdict:'<span class="tag">待确认</span>', note:'官网价格页为「Bare Metal / Compute / Storage / Network」导航式汇总，本轮未取到可引用的实例（Instances）入门单价与免费额度口径，故价格与免费额度均标为待确认，不进价格散点图。信源：<a class="ext" href="https://www.scaleway.com/en/pricing/">Scaleway 定价页</a>。'},
+  {name:'Namecheap VPS', verdict:'<span class="tag">待确认</span>', note:'官网 VPS 定价页对非浏览器客户端返回 403（反爬），本轮未取得可引用的价格原文，按待确认处理，不进价格散点图。信源：<a class="ext" href="https://www.namecheap.com/hosting/vps/">Namecheap VPS 定价页</a>。'},
+  {name:'UpCloud', verdict:'<span class="tag">部分具备，待确认</span>', note:'官网设有定价页但本轮未取到可引用的月价原文；第三方按小时计费口径约为 €0.004/小时起。价格标为待确认，不进价格散点图。信源：<a class="ext" href="https://upcloud.com/pricing/">UpCloud 定价页</a>。'}
+];
+
+const SOURCES = [
+  {p:"Amazon EC2 / AWS Free Tier / Lightsail", items:[
+    ['官方站点','<a class="ext" href="https://aws.amazon.com/ec2/pricing/">Amazon EC2 定价页</a>','按需按秒计费、实例价格口径'],
+    ['官方站点','<a class="ext" href="https://aws.amazon.com/free/">AWS Free Tier 官方页</a>','免费档分层规则、40+ 永久免费项'],
+    ['官方站点','<a class="ext" href="https://aws.amazon.com/lightsail/pricing/">Amazon Lightsail 定价页</a>','$5/$7/$12/$24 套餐与流量口径']
+  ]},
+  {p:"Azure Virtual Machines", items:[
+    ['官方站点','<a class="ext" href="https://azure.microsoft.com/en-us/pricing/free-services/">Azure 免费服务官方页</a>','$200 额度、B1s/B2pts v2/B2ats v2 每月 750 小时、55+ 永久免费项'],
+    ['官方站点','<a class="ext" href="https://azure.microsoft.com/en-us/pricing/details/virtual-machines/linux/">Azure Linux 虚拟机定价页</a>','入门 B 系列按月单价口径']
+  ]},
+  {p:"Google Compute Engine / Google Cloud 免费层", items:[
+    ['官方站点','<a class="ext" href="https://cloud.google.com/free/docs/free-cloud-features">Google Cloud 免费功能官方页</a>','e2-micro 永久免费、限定三个美国区域、30GB 持久盘、1GB 出站'],
+    ['官方站点','<a class="ext" href="https://cloud.google.com/compute/pricing">Compute Engine 定价页</a>','按秒计费、实例单价与长期折扣'],
+    ['科技媒体','<a class="ext" href="https://www.jiemian.com/article/14130119.html">界面新闻：谷歌云 5 月 1 日起大幅调价</a>','北美网络服务单价翻倍、调价时点']
+  ]},
+  {p:"Oracle Cloud（Always Free）", items:[
+    ['官方站点','<a class="ext" href="https://www.oracle.com/cloud/free/">Oracle Cloud Free Tier 官方页</a>','Always Free 额度（AMD VM、Ampere A1 4 OCPU/24GB、200GB 块存储、10TB 出站）'],
+    ['官方站点','<a class="ext" href="https://www.oracle.com/cloud/price-list/">Oracle Cloud 价格表</a>','付费实例单价口径（OCPU / 内存按小时）']
+  ]},
+  {p:"IBM Cloud", items:[
+    ['官方站点','<a class="ext" href="https://www.ibm.com/cloud/free/">IBM Cloud 免费档官方页</a>','Lite 账号 40+ 永久免费产品、$200 额度（30 天）、Hyper Protect Virtual Server 免费口径'],
+    ['官方文档','<a class="ext" href="https://cloud.ibm.com/docs/vpc">IBM Cloud VPC 文档</a>','虚拟服务器实例类型与区域（免费档未含 x86 VSI）'],
+    ['官方站点','<a class="ext" href="https://www.ibm.com/products/cloud/virtual-servers">IBM Cloud 虚拟服务器产品页</a>','VSI 规格与计费方式']
+  ]},
+  {p:"DigitalOcean", items:[
+    ['官方站点','<a class="ext" href="https://www.digitalocean.com/pricing">DigitalOcean 定价页</a>','Droplet $4/$6 档配置与流量'],
+    ['官方文档','<a class="ext" href="https://docs.digitalocean.com/products/billing/">DigitalOcean 计费文档</a>','按秒计费口径（最低 60 秒）']
+  ]},
+  {p:"Vultr", items:[
+    ['官方站点','<a class="ext" href="https://www.vultr.com/pricing/">Vultr 定价页</a>','入门 $2.50/月起、$0.0034/小时、$300 免费额度'],
+    ['官方文档','<a class="ext" href="https://docs.vultr.com/how-vultr-billing-works">Vultr 计费说明</a>','按小时实例每月计费上限 672 小时、停机不等于停止计费']
+  ]},
+  {p:"Linode（Akamai）", items:[
+    ['官方站点','<a class="ext" href="https://www.linode.com/pricing/">Linode 定价页</a>','Nanode 1GB $5/月配置与流量'],
+    ['官方站点','<a class="ext" href="https://www.akamai.com/products/compute">Akamai Compute（Linode）产品页</a>','被 Akamai 收购后的产品定位']
+  ]},
+  {p:"Hetzner Cloud", items:[
+    ['官方站点','<a class="ext" href="https://www.hetzner.com/cloud/">Hetzner Cloud 官网</a>','机型与当前价格、EU 区域流量'],
+    ['官方文档','<a class="ext" href="https://docs.hetzner.com/general/infrastructure-and-availability/price-adjustment/">Hetzner 价格调整说明（2026-06-15 生效）</a>','调价生效时点、对新订单与 rescale 的适用范围'],
+    ['科技媒体','<a class="ext" href="https://www.hosting-tutorials.com/articles/hosting-price-increase-2026">The 2026 Hosting Price Increase, Line by Line</a>','入门 VPS €4.49→€6.49、CAX11 €5.34→€7.13（含增值税）']
+  ]},
+  {p:"OVHcloud VPS / Public Cloud", items:[
+    ['官方站点','<a class="ext" href="https://www.ovhcloud.com/en/vps/">OVHcloud VPS 官方页</a>','VPS-1 起 $4.54/月、含每日备份与反 DDoS、亚太配额口径'],
+    ['官方博客','<a class="ext" href="https://blog.ovhcloud.com/en/posts/public-cloud-pricing-update-october-2026/">OVHcloud：Public Cloud 2026-10-01 起调价</a>','涨幅 1.4%–21.9%、本地存储与公网 IPv4 改为单独计费'],
+    ['官方博客','<a class="ext" href="https://blog.ovhcloud.com/evolutions-tarifaires-de-public-cloud-bare-metal-et-vps-chez-ovhcloud/">OVHcloud：Public Cloud / Bare Metal / VPS 资费变动（4 月 1 日生效）</a>','新价生效时点与续约窗口']
+  ]},
+  {p:"Scaleway / IONOS", items:[
+    ['官方站点','<a class="ext" href="https://www.scaleway.com/en/pricing/">Scaleway 定价页</a>','产品线范围（实例、裸金属、GPU、容器、Serverless）'],
+    ['官方站点','<a class="ext" href="https://www.ionos.com/servers/vps">IONOS VPS+ 官方页</a>','VPS S+/M+ 促销与标准价、31 个数据中心、99.99%+ 可用性']
+  ]},
+  {p:"Contabo", items:[
+    ['官方站点','<a class="ext" href="https://contabo.com/en/vps">Contabo VPS 定价页</a>','Core / Cloud VPS €4.50 起、Cloud VPS 4 €5.24（24 个月期）'],
+    ['官方站点','<a class="ext" href="https://contabo.com/en/">Contabo 官网</a>','数据中心分布与产品线']
+  ]},
+  {p:"Kamatera", items:[
+    ['官方站点','<a class="ext" href="https://www.kamatera.com/pricing/">Kamatera 定价页</a>','基础档 $4/月（1 vCPU/1GB/20GB NVMe/5TB）、Standard $25/月、按分钟计费'],
+    ['官方站点','<a class="ext" href="https://www.kamatera.com/solutions/vps-hosting/">Kamatera VPS 托管方案页</a>','30 天免费试用、额外流量 $0.01/GB']
+  ]},
+  {p:"UpCloud / InterServer", items:[
+    ['官方站点','<a class="ext" href="https://upcloud.com/pricing/">UpCloud 定价页</a>','定价入口（月价原文本轮未取得）'],
+    ['官方站点','<a class="ext" href="https://www.interserver.net/vps/">InterServer Cloud Compute / VPS</a>','1 slice $3/月（1 核/2GB/40GB SSD/2TB）、切片加购与按月计费']
+  ]},
+  {p:"Hostinger VPS", items:[
+    ['官方站点','<a class="ext" href="https://www.hostinger.com/vps-hosting">Hostinger VPS 定价页</a>','KVM 1 $6.49/月（续费 $11.99）、KVM 2 $8.99/月（续费 $14.99）、含每周备份'],
+    ['官方帮助中心','<a class="ext" href="https://support.hostinger.com/en/">Hostinger 帮助中心</a>','VPS 为非托管产品、备份与快照口径'],
+    ['官方教程库','<a class="ext" href="https://www.hostinger.com/tutorials">Hostinger 教程库</a>','VPS 使用与运维说明']
+  ]},
+  {p:"Namecheap VPS / Rackspace", items:[
+    ['官方站点','<a class="ext" href="https://www.namecheap.com/hosting/vps/">Namecheap VPS 定价页</a>','官方入口（定价页对非浏览器客户端返回 403，价格待确认）'],
+    ['官方站点','<a class="ext" href="https://www.rackspace.com/cloud">Rackspace Cloud 官网</a>','已转向托管云服务、无标准自助 VPS 公开单价']
+  ]},
+  {p:"腾讯云国际站 Lighthouse", items:[
+    ['官方站点','<a class="ext" href="https://www.tencentcloud.com/products/lighthouse">腾讯云国际站轻量应用服务器</a>','入门套餐促销 $10.08/年、Windows 档 $6.00/月'],
+    ['官方文档','<a class="ext" href="https://www.tencentcloud.com/document/product/1098/48406">腾讯云国际站产品定价文档</a>','计费与流量单价口径']
+  ]},
+  {p:"时间线与市场背景", items:[
+    ['科技媒体','<a class="ext" href="https://www.srgresearch.com/articles/q2-cloud-market-passes-143-billion-highest-growth-rate-in-eight-years">Synergy Research：Q2 云市场超 1430 亿美元、八年最高增速</a>','2026 Q2 支出 1434 亿美元、同比 +43%、厂商份额 28%/20%/15%'],
+    ['科技媒体','<a class="ext" href="https://www.crn.com/news/cloud/2026/cloud-market-share-q2-2026-google-gains-share-as-aws-falls">CRN：Cloud Market Share Q2 2026</a>','份额与增速的交叉印证'],
+    ['科技媒体','<a class="ext" href="https://www.jiemian.com/article/14130119.html">界面新闻：算力需求攀升，百度智能云、阿里云同日官宣涨价</a>','谷歌云 5 月 1 日调价、Hetzner 4 月 1 日调价、涨价周期起点'],
+    ['科技媒体','<a class="ext" href="https://www.hosting-tutorials.com/articles/hosting-price-increase-2026">2026 Hosting Price Increase 逐条拆解</a>','Hetzner 6-15 生效时点与涨幅']
+  ]}
+];
+
+const TODOS = [
+  ["Scaleway 价格","官网定价页为导航式汇总（Bare Metal / Compute / GPU / Storage / Network 分栏），本轮未取到可引用的实例入门单价与免费额度，按待确认处理。"],
+  ["Namecheap VPS 价格","官网 VPS 定价页对非浏览器客户端返回 403（反爬），未取得价格原文，价格与免费额度均待确认。"],
+  ["UpCloud 价格","官网设有定价页但本轮未取到可引用月价；第三方按小时计费口径约 €0.004/小时起，未经官方页面确认。"],
+  ["Rackspace 价格","已转型托管云，官网不公示标准自助 VPS 单价，需按托管服务等级项目报价，无法与 $5/月级 VPS 同表比较。"],
+  ["IBM Cloud 免费虚拟服务器口径","Lite 档虚拟服务器免费项为 Hyper Protect Virtual Server（LinuxONE，1 vCPU 口径）；是否提供永久免费 x86 VSI 待确认。"],
+  ["Azure 与 GCE 入门单价","两家官网的实例单价随区域、操作系统与折扣方式浮动，本表仅给量级（约 $6–8/月起），正式比价须用官方定价计算器。"],
+  ["AWS Free Tier 新老账号口径","2025-07-15 为分界点：老账号 12 个月 750 小时，新账号为 Free Plan（6 个月或 credit 用尽为止）；t4g.small 每月 750 小时的赠额活动曾标注截至 2026-12-31，是否延期待确认。"],
+  ["Hetzner 调价后各档现价","官方文档已确认 2026-06-15 调价生效；入门档 €4.49→€6.49 与 CAX11 €5.34→€7.13 来自第三方逐条拆解，官网当前各机型现价需逐项核验。"],
+  ["OVHcloud 10-01 调价对 VPS 的影响范围","官方公告明确的是 Public Cloud 实例（+1.4%–21.9%）及本地存储、公网 IPv4 改为单独计费；VPS 产品线是否同步调整未在公告中逐项说明。"],
+  ["Contabo 套餐命名与价格口径","官网不同页面分别出现 Core VPS 与 Cloud VPS 命名，以及 €4.50（12 个月期）与 €5.24（24 个月期）等不同口径，实际价格以结账页为准。"],
+  ["Kamatera 折扣","长期合约与预付折扣的幅度未在价格页公示，基础档 $4/月是否长期有效需以结账页为准。"],
+  ["Hostinger 续费价","促销价为长周期预付的均价，续费恢复挂牌价（KVM 系列 $11.99–49.99/月），实际续费金额以账户页面为准。"],
+  ["腾讯云国际站轻量促销资格","$10.08/年 为入门型促销价，新用户资格、活动周期与续费价未在页面固定公示，需以国际站活动页为准。"],
+  ["Vultr 按小时实例计费上限适用范围","官方文档说明非 GPU 实例每月计费上限约 672 小时，具体机型适用范围与停机计费规则需按文档逐项确认。"],
+  ["Oracle 免费 ARM 容量可用性","Always Free 的 Ampere A1 额度在热门区域经常因容量不足无法开机，官方未提供容量保证或排队说明。"]
+];
+
+/* ================= 渲染：总表 ================= */
+const CAT = {hyper:'大厂云', idc:'独立云商', light:'轻量 VPS', free:'免费用量'};
+const CAT_TAG = {hyper:'cat-video', idc:'cat-live', light:'cat-clone', free:'cat-interactive'};
+const tableEl = document.getElementById('mainTable');
+PRODUCTS.forEach(function(p){
+  const availTag = p.avail === 'free'
+    ? '<span class="tag free">可免费使用</span>'
+    : '<span class="tag paid">付费或仅 API</span>';
+  const catTag = '<span class="tag ' + CAT_TAG[p.cat] + '">' + CAT[p.cat] + '</span>';
+  const scoreHtml = (p.score === null)
+    ? '<span class="score na">—</span>'
+    : '<span class="score">' + p.score.toFixed(1) + '</span>';
+  const priceHtml = p.price + (p.cny ? '<span class="note-inline" style="display:block;margin-top:3px">' + p.cny + '</span>' : '');
+  const tr = document.createElement('tr');
+  tr.innerHTML =
+    '<td data-label="产品 / 开发方"><span class="pname">' + p.name + '</span><span class="dev">' + p.dev + '</span><span style="display:block;margin-top:6px">' + catTag + availTag + '</span></td>' +
+    '<td data-label="评分">' + scoreHtml + '</td>' +
+    '<td data-label="评分依据"><span class="basis">' + p.basis + '</span></td>' +
+    '<td data-label="官方入口"><a class="ext" href="' + p.site.url + '">' + p.site.label + '</a></td>' +
+    '<td data-label="免费额度">' + p.free + '</td>' +
+    '<td data-label="价格">' + priceHtml + '</td>' +
+    '<td data-label="特点与局限">' + p.note + '</td>';
+  tableEl.appendChild(tr);
+});
+document.getElementById('tableCaption').textContent =
+  '注：评分为主观共识评分（满分 10），非厂商官方指标。价格与免费额度均以 2026-10-08 公开信息为准；标注「待确认」表示本轮未取得可靠官方口径。';
+
+/* ================= 渲染：时间线 ================= */
+const tlEl = document.getElementById('timeline');
+TIMELINE.forEach(function(t){
+  var d = document.createElement('div');
+  d.className = 'tnode' + (t.hot ? ' hot' : '');
+  d.innerHTML = '<div class="when">' + t.when + '</div><div class="axis"><i class="dot"></i></div>' +
+                '<div class="body"><p class="what">' + t.what + '</p><p class="why">' + t.why + '</p></div>';
+  tlEl.appendChild(d);
+});
+
+/* ================= 渲染：核验表 ================= */
+const vEl = document.getElementById('verifyTable');
+VERIFIED.forEach(function(v){
+  var tr = document.createElement('tr');
+  tr.innerHTML = '<td data-label="厂商 / 产品"><span class="pname">' + v.name + '</span></td>' +
+                 '<td data-label="核验结论">' + v.verdict + '</td>' +
+                 '<td data-label="说明">' + v.note + '</td>';
+  vEl.appendChild(tr);
+});
+
+/* ================= 渲染：信源索引 ================= */
+const srcEl = document.getElementById('sourceIndex');
+SOURCES.forEach(function(g){
+  var h = document.createElement('div');
+  h.className = 'srcgrp';
+  var rows = g.items.map(function(it){
+    var link = /^https?:/.test(it[1]) ? '<a class="ext" href="' + it[1] + '">' + it[1] + '</a>' : it[1];
+    link = link.replace(/・/g, '<br>');
+    return '<li class="srcitem">' +
+           '<span class="srclabel">' + it[0] + '</span>' +
+           '<span class="srcbody">' + link +
+           '<span class="srcfield">支撑字段：' + it[2] + '</span></span></li>';
+  }).join('');
+  h.innerHTML = '<h3>' + g.p + '</h3><ul class="srclist">' + rows + '</ul>';
+  srcEl.appendChild(h);
+});
+
+/* ================= 渲染：待确认 ================= */
+const todoEl = document.getElementById('todoList');
+TODOS.forEach(function(t, i){
+  var d = document.createElement('div');
+  d.className = 't';
+  d.innerHTML = '<div class="n">' + (i + 1) + '</div><div class="c"><b>' + t[0] + '：</b>' + t[1] + '</div>';
+  todoEl.appendChild(d);
+});
+
+/* ================= ECharts ================= */
+var C = {primary:'#12564C', accent:'#C4762A', ink:'#1F2329', ink2:'#646A73', ink3:'#8A939B', line:'#DEE3E8'};
+var CAT_COLOR = {hyper:'#12564C', idc:'#C4762A', light:'#4E7BA6', free:'#7C8A5A'};
+var FONT = '"Noto Sans SC","PingFang SC","Microsoft YaHei",sans-serif';
+
+function renderScore(){
+  var el = document.getElementById('chartScore');
+  if(!el || typeof echarts === 'undefined') return;
+  var data = PRODUCTS.filter(function(p){return p.score !== null;})
+                     .slice().sort(function(a,b){return a.score - b.score;});
+  var chart = echarts.init(el);
+  chart.setOption({
+    grid:{left:8, right:72, top:18, bottom:34, containLabel:true},
+    tooltip:{
+      trigger:'axis', axisPointer:{type:'shadow'},
+      backgroundColor:'#fff', borderColor:C.line, borderWidth:1,
+      textStyle:{color:C.ink, fontFamily:FONT, fontSize:14},
+      formatter:function(ps){
+        var i = ps[0].dataIndex, p = data[i];
+        return '<b>' + p.name + '</b><br/>综合评分：' + p.score.toFixed(1) + ' / 10<br/>品类：' + CAT[p.cat] +
+               '<br/>开发者：' + p.dev + '<br/>评分依据：' + p.basis;
+      }
+    },
+    xAxis:{
+      type:'value', min:0, max:10, splitNumber:5,
+      axisLine:{show:false}, axisTick:{show:false},
+      splitLine:{lineStyle:{color:'#EDF1F4'}},
+      axisLabel:{color:C.ink3, fontFamily:FONT, fontSize:13}
+    },
+    yAxis:{
+      type:'category',
+      data:data.map(function(p){return p.name;}),
+      axisLine:{show:false}, axisTick:{show:false},
+      axisLabel:{color:C.ink, fontFamily:FONT, fontSize:13.5}
+    },
+    series:[{
+      type:'bar', barWidth:'58%',
+      data:data.map(function(p){
+        return {
+          value:p.score,
+          itemStyle:{color:CAT_COLOR[p.cat], borderRadius:[0,3,3,0]}
+        };
+      }),
+      label:{
+        show:true, position:'right', fontFamily:FONT, fontSize:13.5,
+        fontWeight:'bold', color:C.ink, formatter:function(ps){return ps.value.toFixed(1);}
+      }
+    }]
+  });
+  window.addEventListener('resize', function(){chart.resize();});
+}
+
+function renderPrice(){
+  var el = document.getElementById('chartPrice');
+  if(!el || typeof echarts === 'undefined' || !PRICE_POINTS.length) return;
+  var chart = echarts.init(el);
+  chart.setOption({
+    grid:{left:8, right:40, top:26, bottom:56, containLabel:true},
+    tooltip:{
+      trigger:'item',
+      backgroundColor:'#fff', borderColor:C.line, borderWidth:1,
+      textStyle:{color:C.ink, fontFamily:FONT, fontSize:14},
+      formatter:function(ps){
+        var d = ps.data, v = d.value;
+        return '<b>' + d.name + '</b><br/>最低付费月费：' + (v[0] === 0 ? '0（完全免费）' : '¥' + v[0] + '/月') +
+               '<br/>综合评分：' + v[1].toFixed(1);
+      }
+    },
+    xAxis:{
+      type:'value', min:-3, max:62,
+      axisLine:{lineStyle:{color:C.line}}, axisTick:{show:false},
+      splitLine:{lineStyle:{color:'#EDF1F4'}},
+      axisLabel:{color:C.ink3, fontFamily:FONT, fontSize:13, formatter:'{value}'},
+      name:'最低付费月费（元）', nameLocation:'middle', nameGap:34,
+      nameTextStyle:{color:C.ink2, fontFamily:FONT, fontSize:13}
+    },
+    yAxis:{
+      type:'value', min:6.4, max:9.4, splitNumber:5,
+      axisLine:{show:false}, axisTick:{show:false},
+      splitLine:{lineStyle:{color:'#EDF1F4'}},
+      axisLabel:{color:C.ink3, fontFamily:FONT, fontSize:13},
+      name:'综合评分', nameTextStyle:{color:C.ink2, fontFamily:FONT, fontSize:13}
+    },
+    series:[{
+      type:'scatter',
+      symbolSize:16,
+      data:PRICE_POINTS.map(function(p){
+        return {
+          name:p.name,
+          value:[p.x, p.y],
+          free:p.free,
+          label:{position:p.lp, distance:10}
+        };
+      }),
+      itemStyle:{
+        color:function(ps){return ps.data.free ? C.primary : C.accent;},
+        borderColor:'#fff', borderWidth:1.5
+      },
+      label:{
+        show:true, fontFamily:FONT, fontSize:12.5, color:C.ink,
+        formatter:function(ps){return ps.data.name;}
+      },
+      markLine:{
+        silent:true, symbol:'none',
+        lineStyle:{color:C.primary, type:'dashed', width:1, opacity:.55},
+        label:{show:true, position:'insideEndTop', fontFamily:FONT, fontSize:12, color:C.primary,
+               formatter:'完全免费区'},
+        data:[{xAxis:0}]
+      }
+    }]
+  });
+  window.addEventListener('resize', function(){chart.resize();});
+}
+
+renderScore();
+renderPrice();
+</script>
+
+</main>
+
+</body>
+</html>

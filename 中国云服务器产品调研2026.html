@@ -1,0 +1,962 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>中国云服务器产品调研（2026 年 10 月）</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%2312564C'/%3E%3Ccircle cx='13' cy='13' r='5' fill='none' stroke='%23fff' stroke-width='2.2'/%3E%3Cpath d='M10.5 22.5c1.4-2 3.1-3 5-3s3.6 1 5 3' fill='none' stroke='%23C4762A' stroke-width='2.2' stroke-linecap='round'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="https://miaoda.feishu.cn/fonts/css2?family=Noto+Serif+SC:wght@600;700;900&family=Noto+Sans+SC:wght@300;400;500;700&display=swap">
+<script src="https://cdn.jsdelivr.net/npm/echarts@5.5.1/dist/echarts.min.js"></script>
+<style>
+:root{
+  --ink:#1F2329;
+  --ink-2:#646A73;
+  --ink-3:#8A939B;
+  --line:#DEE3E8;
+  --line-2:#EDF1F4;
+  --primary:#12564C;
+  --primary-soft:#E8F0EE;
+  --accent:#C4762A;
+  --accent-soft:#FAEFE3;
+  --bg:#FFFFFF;
+  --bg-soft:#F7F9FA;
+  --serif:"Noto Serif SC","Songti SC",Georgia,"Microsoft YaHei",serif;
+  --sans:"Noto Sans SC","PingFang SC","Microsoft YaHei",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+}
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  margin:0;background:var(--bg);color:var(--ink);
+  font-family:var(--sans);font-weight:400;font-size:16px;line-height:1.78;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:1120px;margin:0 auto;padding:0 28px;}
+
+/* ===== 报头 ===== */
+.masthead{border-bottom:2px solid var(--ink);padding:56px 0 22px;margin-bottom:0;}
+.kicker{
+  font-size:13px;letter-spacing:.14em;color:var(--primary);
+  font-weight:700;margin:0 0 18px;text-transform:none;
+}
+h1.title{
+  font-family:var(--serif);font-weight:900;
+  font-size:clamp(28px,4.6vw,50px);line-height:1.22;letter-spacing:-.01em;
+  margin:0 0 16px;max-width:20em;
+}
+.subtitle{font-size:17px;color:var(--ink-2);margin:0 0 26px;max-width:44em;line-height:1.7;}
+.meta-row{
+  display:flex;flex-wrap:wrap;gap:10px 34px;font-size:13.5px;color:var(--ink-2);
+  border-top:1px solid var(--line);padding-top:14px;
+}
+.meta-row b{color:var(--ink);font-weight:700;}
+
+.strip{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:0;
+  border-bottom:1px solid var(--line);margin-bottom:0;
+}
+.strip .cell{padding:22px 22px 22px 0;border-right:1px solid var(--line-2);}
+.strip .cell:last-child{border-right:0;}
+.strip .num{
+  font-family:var(--serif);font-weight:700;font-size:clamp(22px,3.1vw,34px);
+  color:var(--primary);line-height:1.1;font-variant-numeric:tabular-nums;
+}
+.strip .lbl{font-size:13px;color:var(--ink-2);margin-top:7px;line-height:1.55;}
+
+/* ===== 章节 ===== */
+section{padding:54px 0 8px;border-bottom:1px solid var(--line-2);}
+section:last-of-type{border-bottom:0;}
+h2.sec{
+  font-family:var(--serif);font-weight:700;font-size:clamp(21px,2.6vw,28px);
+  margin:0 0 8px;line-height:1.3;display:flex;gap:14px;align-items:baseline;
+}
+h2.sec .no{
+  font-size:13px;font-weight:700;color:var(--accent);letter-spacing:.08em;
+  font-variant-numeric:tabular-nums;flex:none;padding-top:6px;
+}
+.lede{font-size:16.5px;color:var(--ink-2);max-width:46em;margin:0 0 26px;line-height:1.8;}
+p{margin:0 0 16px;}
+h3{font-family:var(--serif);font-weight:600;font-size:18.5px;margin:30px 0 12px;}
+
+/* ===== 表格 ===== */
+.tablewrap{overflow-x:auto;margin:0 0 10px;border:1px solid var(--line);}
+table{border-collapse:collapse;width:100%;table-layout:fixed;min-width:1120px;}
+thead th{
+  background:var(--bg-soft);text-align:left;font-weight:700;font-size:13.5px;
+  color:var(--ink-2);padding:12px 14px;border-bottom:1px solid var(--line);
+  vertical-align:bottom;line-height:1.5;
+}
+tbody td{
+  padding:14px;border-bottom:1px solid var(--line-2);vertical-align:top;
+  font-size:14px;line-height:1.68;overflow-wrap:anywhere;
+}
+tbody tr:last-child td{border-bottom:0;}
+tbody tr:hover{background:#FCFDFD;}
+.pname{font-weight:700;font-size:14.5px;}
+.dev{display:block;color:var(--ink-3);font-size:12.5px;margin-top:3px;line-height:1.5;}
+.score{
+  font-family:var(--serif);font-weight:700;font-size:19px;color:var(--primary);
+  font-variant-numeric:tabular-nums;display:block;
+}
+.score.na{color:var(--ink-3);font-size:15px;}
+.basis{display:block;color:var(--ink-3);font-size:12px;margin-top:5px;line-height:1.55;}
+a{color:var(--primary);text-decoration:none;border-bottom:1px solid rgba(18,86,76,.35);}
+a:hover{border-bottom-color:var(--primary);}
+a.ext::after{content:"↗";font-size:.78em;vertical-align:.18em;margin-left:2px;color:var(--ink-3);}
+.note-inline{color:var(--ink-3);font-size:12.5px;}
+.tag{
+  display:inline-block;font-size:12px;font-weight:700;line-height:1.5;
+  padding:1px 8px;border:1px solid var(--line);color:var(--ink-2);
+  background:var(--bg-soft);margin-bottom:6px;margin-right:4px;
+}
+.tag.cat-video{color:#0E4A41;background:#E8F0EE;border-color:#C9DCD6;}
+.tag.cat-live{color:#7A4712;background:var(--accent-soft);border-color:#E7D2B8;}
+.tag.cat-clone{color:#1F4E79;background:#E8EFF5;border-color:#C9D8E6;}
+.tag.cat-interactive{color:#4C5636;background:#EFF1E6;border-color:#D5DAC4;}
+.tag.free{color:#fff;background:var(--primary);border-color:var(--primary);}
+.tag.paid{color:#7A4712;background:var(--accent-soft);border-color:#E7D2B8;}
+ul.tight{margin:0;padding-left:18px;}
+ul.tight li{margin-bottom:5px;}
+
+/* ===== 图表 ===== */
+.chart-card{border:1px solid var(--line);padding:22px 20px 12px;margin:0 0 10px;background:var(--bg);}
+.chart-title{font-family:var(--serif);font-weight:600;font-size:16.5px;margin:0 0 4px;}
+.chart-sub{font-size:13px;color:var(--ink-2);margin:0 0 14px;line-height:1.62;}
+.chart{width:100%;height:520px;}
+.chart.tall{height:640px;}
+.caption{font-size:12.5px;color:var(--ink-3);line-height:1.7;margin:6px 0 0;}
+
+/* ===== 结论块 ===== */
+.findings{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border-top:1px solid var(--line);}
+.findings .f{padding:24px 24px 8px 0;border-right:1px solid var(--line-2);}
+.findings .f:last-child{border-right:0;padding-right:0;}
+.findings .f .t{font-family:var(--serif);font-weight:700;font-size:16.5px;margin:0 0 8px;line-height:1.5;}
+.findings .f p{font-size:14px;color:var(--ink-2);line-height:1.72;margin:0;}
+
+/* ===== 时间线 ===== */
+.timeline{margin:6px 0 0;position:relative;}
+.timeline::before{
+  content:"";position:absolute;top:11px;bottom:11px;
+  left:116.5px;width:1px;background:var(--line);
+}
+.tnode{display:grid;grid-template-columns:104px 26px 1fr;align-items:start;}
+.tnode .when{
+  font-size:13px;font-weight:700;color:var(--primary);text-align:right;
+  padding-right:10px;line-height:22px;font-variant-numeric:tabular-nums;
+}
+.tnode .axis{display:flex;justify-content:center;}
+.tnode .dot{position:relative;z-index:1;width:10px;height:10px;border-radius:50%;background:#fff;border:2px solid var(--primary);margin-top:6px;}
+.tnode.hot .dot{background:var(--accent);border-color:var(--accent);}
+.tnode .body{padding:0 0 22px 14px;}
+.tnode:last-child .body{padding-bottom:0;}
+.tnode .what{font-weight:700;font-size:15px;margin:0 0 3px;line-height:1.55;}
+.tnode .why{font-size:14px;color:var(--ink-2);margin:0;line-height:1.7;}
+
+/* ===== 待确认 ===== */
+.todo{border-top:1px solid var(--line);}
+.todo .t{display:grid;grid-template-columns:34px 1fr;gap:12px;padding:14px 0;border-bottom:1px solid var(--line-2);}
+.todo .t .n{font-family:var(--serif);font-weight:700;color:var(--accent);font-variant-numeric:tabular-nums;font-size:15px;}
+.todo .t .c{font-size:14px;line-height:1.72;color:var(--ink);}
+.todo .t .c b{font-weight:700;}
+
+/* ===== 信源索引 ===== */
+.srcgrp{margin-bottom:28px;}
+.srcgrp h3{margin-top:0;}
+.srclist{margin:0;padding:0;}
+.srcitem{display:grid;grid-template-columns:112px 1fr;gap:12px;margin-bottom:12px;list-style:none;}
+.srclabel{font-size:12.5px;color:var(--ink-3);font-weight:700;line-height:1.6;}
+.srcbody{font-size:14px;line-height:1.7;overflow-wrap:anywhere;}
+.srcfield{display:block;margin-top:2px;font-size:12.5px;color:var(--ink-3);}
+
+footer{padding:34px 0 56px;color:var(--ink-3);font-size:13px;line-height:1.8;}
+footer b{color:var(--ink-2);}
+
+@media (max-width:960px){
+  .strip{grid-template-columns:repeat(2,1fr);}
+  .strip .cell:nth-child(2){border-right:0;}
+  .strip .cell{border-bottom:1px solid var(--line-2);padding-right:16px;}
+  .strip .cell:nth-child(3),.strip .cell:nth-child(4){border-bottom:0;}
+  .findings{grid-template-columns:1fr;}
+  .findings .f{border-right:0;border-bottom:1px solid var(--line-2);padding:20px 0 14px;}
+  .findings .f:last-child{border-bottom:0;}
+  .tablewrap{border:0;overflow:visible;}
+  table{min-width:0;table-layout:auto;display:block;}
+  thead{display:none;}
+  tbody{display:block;}
+  tbody tr{display:block;border:1px solid var(--line);margin-bottom:14px;padding:4px 0;}
+  tbody td{display:grid;grid-template-columns:88px 1fr;gap:10px;border-bottom:1px solid var(--line-2);padding:10px 14px;font-size:13.5px;}
+  tbody td:last-child{border-bottom:0;}
+  tbody td::before{
+    content:attr(data-label);font-size:12.5px;color:var(--ink-3);font-weight:700;line-height:1.6;
+  }
+  .chart{height:640px;}
+  .chart.tall{height:840px;}
+  .tnode{grid-template-columns:78px 20px 1fr;}
+  .tnode .when{font-size:12px;padding-right:7px;}
+  .tnode .body{padding-left:10px;}
+  .timeline::before{left:87.5px;}
+  .meta-row{font-size:14px;}
+  .strip .lbl{font-size:13.5px;}
+  .findings .f p{font-size:14.5px;}
+  tbody td{font-size:14.5px;grid-template-columns:98px 1fr;}
+  tbody td::before{font-size:13px;}
+  .dev{font-size:14px;}
+  .tablewrap a.ext{display:inline-block;padding:10px 0;}
+  .srcitem{grid-template-columns:1fr;gap:2px;}
+  .srclabel{font-size:13px;}
+  .srcbody{font-size:14.5px;}
+  .kicker{font-size:14px;}
+  .strip .lbl{font-size:14px;}
+  .tag{font-size:14px;}
+  h2.sec .no{font-size:14px;}
+}
+@media (max-width:520px){
+  .wrap{padding:0 16px;}
+  .chart{height:720px;}
+  .tnode{grid-template-columns:66px 16px 1fr;}
+  .timeline::before{left:73.5px;}
+}
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="wrap">
+    <p class="kicker">云服务器调研 · 中国（大陆）· 2026 年 10 月口径</p>
+    <h1 class="title">中国云服务器产品调研</h1>
+    <p class="subtitle">覆盖大厂云主机、IDC 云商与轻量应用服务器三类共 27 个在营产品：谁在做、免费额度给多少、最低配置档按什么价格卖、备案与带宽的真实门槛在哪。每条结论附可追溯来源，官方站点与官方文档交叉验证。</p>
+    <div class="meta-row">
+      <span>数据口径：<b>截至 2026-10-08</b></span>
+      <span>计价货币：<b>人民币（CNY）</b></span>
+      <span>信源交叉：<b>官方站点 / 官方文档 / 科技媒体</b></span>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="strip">
+    <div class="cell"><div class="num">27</div><div class="lbl">可评分在营产品</div></div>
+    <div class="cell"><div class="num">11</div><div class="lbl">含免费试用或免费额度</div></div>
+    <div class="cell"><div class="num">¥3–116</div><div class="lbl">最低付费档月费（年付折算）</div></div>
+    <div class="cell"><div class="num">4</div><div class="lbl">覆盖产品品类数</div></div>
+  </div>
+</div>
+
+<main class="wrap">
+
+<section>
+  <h2 class="sec"><span class="no">01</span>核心结论</h2>
+  <p class="lede">2026 年的国内云主机市场同时朝两个方向走：一边是算力挤占资源、头部厂商上调价格（阿里云、百度智能云在 3 月同日官宣调价，谷歌云、Hetzner、OVHcloud 也在同一季度提价），另一边是入门档价格战仍未停，1 核 2G 的轻量服务器被压到 38–99 元/年。免费额度依然是标配，但「试用实例不能备案」几乎是通行限制。</p>
+  <div class="findings">
+    <div class="f"><p class="t">价格两头分化：入门档更便宜，按量档更贵</p><p>入门档被压到百元以内年付——七牛云 2 核 2G 66 元/年、腾讯云轻量 4 核 4G 109 元/年、阿里云经济型 e 2 核 2G/3M 99 元/年、青云 1 核 2G 100.32 元/年、蓝队云 1 核 2G 99 元/年。同一时间，阿里云与百度智能云官宣调价，谷歌云北美部分网络服务单价从每 GB 0.04 美元涨到 0.08 美元、Hetzner 入门 VPS 由 €4.49 调到 €6.49。低价促销走的是「新购首年」口径，续费价差是真实成本，采购时必须看第二年价格。</p></div>
+    <div class="f"><p class="t">免费额度普遍存在，但免费实例基本不能备案</p><p>27 个在营产品里 11 个提供免费额度。额度口径最清楚的是阿里云：个人实名总额度 300 元、企业实名 660 元，每小时上限 0.833 元，中国内地每月另赠 20GB 公网流量；腾讯云给个人 2 核 2G/3M 免费 1 个月，华为云 Flexus L 实例可免费 1 个月。关键限制在备案：阿里云明确 ECS 免费试用不支持 ICP 备案，腾讯云要求备案用实例为包年包月且购买 3 个月以上、剩余有效期不少于 1 个月——想建站就必须买付费实例。</p></div>
+    <div class="f"><p class="t">备案才是中国大陆云主机真正的准入门槛</p><p>使用中国大陆节点服务器开办网站或 App 必须先完成 ICP 备案，且只有中国内地地域的实例才能取得备案服务码；香港、海外节点免备案但不在本报告主表口径内。这条规则把市场切成两层：面向境内用户的业务只能选大陆节点并承担备案成本，而免备案需求被推给 IDC 云商与香港节点（恒创科技香港入门云 298 元/年即为此类）。</p></div>
+  </div>
+</section>
+
+<section>
+  <h2 class="sec"><span class="no">02</span>产品字段总表</h2>
+  <p class="lede">同一行回答同一组问题：谁提供的、属于哪一类云服务器、去哪买、免费用多少、按什么价格卖、质量与短板在哪。评分为主观共识评分，非厂商指标；价格为 2026-10-08 人民币口径，年付促销价一律标注折算月费。</p>
+  <div class="tablewrap">
+    <table>
+      <colgroup>
+        <col style="width:15%"><col style="width:7%"><col style="width:13%">
+        <col style="width:12%"><col style="width:17%"><col style="width:16%"><col style="width:20%">
+      </colgroup>
+      <thead>
+        <tr>
+          <th>产品 / 开发方</th>
+          <th>评分</th>
+          <th>评分依据</th>
+          <th>官方入口</th>
+          <th>免费额度</th>
+          <th>价格</th>
+          <th>特点与局限</th>
+        </tr>
+      </thead>
+      <tbody id="mainTable">
+      </tbody>
+    </table>
+  </div>
+  <p class="caption" id="tableCaption"></p>
+</section>
+
+<section>
+  <h2 class="sec"><span class="no">03</span>综合质量评分对比</h2>
+  <p class="lede">评分为主观共识评分，由作者综合官方价格文档、科技媒体横评结论与用户社区口碑给出，满分 10 分。评估维度：入门档价格与续费价差、免费额度实用度、区域覆盖与线路质量、备案与合规便利度、控制台与文档完备度、稳定性与工单响应；四类产品（大厂云 / IDC 云商 / 轻量应用 / 免费用量）按自身核心维度加权。</p>
+  <div class="chart-card">
+    <p class="chart-title">（27）个对象的综合质量评分（满分 10）</p>
+    <p class="chart-sub">颜色区分产品类别：深青为大厂云，赭色为 IDC 云商，蓝为轻量应用，橄榄为免费用量档。</p>
+    <div class="chart tall" id="chartScore"></div>
+    <p class="caption">数据口径：2026-10-08。评分非厂商官方指标。</p>
+  </div>
+  <p>第一梯队是阿里云 ECS（9.2）、腾讯云 CVM（9.0）、华为云 ECS（8.8）与 AWS 中国（8.6）——它们的分差主要来自产品线完整度、区域数量与文档质量，而不是单机性能。轻量档里阿里云轻量（8.7）与腾讯云轻量（8.5）明显领先，因为镜像市场与一键部署体验成熟；IDC 云商整体落在 6.6–7.8 区间，优势在低价与免备案，劣势在资质规模与线路稳定性。需要提醒的是四类产品不可直接横向比较：大厂云看的是全栈配套，IDC 云商看的是单价与带宽，免费用量档看的是额度口径是否白纸黑字写明限制。</p>
+</section>
+
+<section>
+  <h2 class="sec"><span class="no">04</span>价格与免费额度的位置</h2>
+  <p class="lede">把「最低付费月费」和「质量评分」放进同一坐标系，看免费与付费档的分布规律。</p>
+  <div class="chart-card">
+    <p class="chart-title">最低付费月费与质量评分的关系</p>
+    <p class="chart-sub">横轴为可查证的最低付费月费（元/月），完全免费者记为 0；纵轴为综合评分。仅纳入价格口径明确的在营产品，年付价按 ÷12 折算为月费口径。</p>
+    <div class="chart" id="chartPrice"></div>
+    <p class="caption">未纳入本图的条目及其原因见总表与待确认清单。</p>
+  </div>
+  <p>国内云主机没有形成「越贵越好」的关系：月费 3–55 元区间里既有 8.8 分的华为云 ECS，也有 6.6 分的亿速云；百元以上的 IDC 云商（金山云 116 元/月、西部数码 115 元/月）评分反而是 7.0–7.8。真正拉开体验差距的是配套——备案协助、工单响应、线路质量——这些不进单价。免费与低价是获客手段而非产品定位：阿里云 99 元/年、腾讯云 109 元/年都是新购首年价，第二年起按挂牌价续费，采购决策应按续费价而非首年价计算。价格口径不明确的条目（天翼云、移动云、联通云、百度智能云 BCC、UCloud、Azure 中国）未纳入本图。</p>
+</section>
+
+<section>
+  <h2 class="sec"><span class="no">05</span>2024—2026 关键节点</h2>
+  <p class="lede">按公开可查的官方公告与媒体报道时点排列，用于理解价格与免费额度是怎么变成今天这样的。</p>
+  <div class="timeline" id="timeline"></div>
+  <p style="margin-top:22px;">把这几个节点连起来看：2025 年 AWS 先把免费档从「人人 12 个月」改成按注册时间分层，免费试用的门槛与口径开始收紧；2026 年一季度 AI 算力挤占通用算力，谷歌云、Hetzner、OVHcloud 与国内头部厂商先后调价，涨价成为行业共同动作；与此同时中小厂商与 IDC 云商在三四季度用促销抢客，才形成今天「大厂涨价、小厂补贴」的双轨价格结构。</p>
+</section>
+
+<section>
+  <h2 class="sec"><span class="no">06</span>厂商 / 能力核验</h2>
+  <p class="lede">候选清单与检索中重点点名的厂商与方向，逐一给出核验结论；没有产品线、无法核实或属于非官方渠道的，如实写。</p>
+  <div class="tablewrap">
+    <table>
+      <colgroup><col style="width:16%"><col style="width:16%"><col style="width:68%"></colgroup>
+      <thead>
+        <tr><th>厂商 / 产品</th><th>核验结论</th><th>说明</th></tr>
+      </thead>
+      <tbody id="verifyTable"></tbody>
+    </table>
+  </div>
+</section>
+
+<section>
+  <h2 class="sec"><span class="no">07</span>信源索引</h2>
+  <p class="lede">按产品分组，标注每条来源支撑哪些字段。三类信源交叉验证：官方站点、官方文档 / 帮助中心、科技媒体与用户社区。</p>
+  <div id="sourceIndex"></div>
+</section>
+
+<section>
+  <h2 class="sec"><span class="no">08</span>待确认与无法核实项</h2>
+  <p class="lede">以下条目在本轮公开检索范围内无法取得可靠官方口径，如实列出，未作推测填补。</p>
+  <div class="todo" id="todoList"></div>
+</section>
+
+<footer>
+  <p><b>方法与免责：</b>本报告信息采集截止北京时间 2026 年 10 月 8 日，价格以人民币计（海外产品引用 USD 原值并约合人民币，按 1 USD ≈ 7.1 CNY 估算）。“云服务器质量评分”为主观共识评分，由作者综合官方价格文档、科技媒体横评结论与用户社区口碑给出，非厂商官方指标，也不等同于客观基准测试；同一配置在不同区域、线路与促销周期下实付价格差异较大。</p>
+  <p><b>已剔除的非官方来源：</b>第三方域名自称官方、以「低于官网价」售卖大厂云主机的代理页与「永久免费」聚合页，均不作为官方依据；带推广性质的内容源已在引用时单独标注。</p>
+  <p>价格与免费额度变动频繁，正式采购前请以厂商官方页面为准。</p>
+</footer>
+
+<script>
+/* =====================================================================
+   填充说明（按同批规范填充，勿改动 CSS 与渲染函数结构）：
+   1. PRODUCTS：每个产品一个对象。cat 取值 hyper/idc/light/free；
+      score 为 10 分制主观共识分（可小数，null 表示不评分）；
+      avail 取值 free（有免费额度）/ paid（付费或仅 API）；
+      site 为官方域名（label 显示名，url 链接），已逐条核验非仿冒站；
+      free 写免费额度具体口径；price 写价格（国内人民币）；
+      basis 首句写「共识区间 X–Y」，随后为 10-25 字评分依据；note 为特点与局限。
+   2. PRICE_POINTS：x=最低付费月费（元，完全免费记 0），y=评分，free=true/false，lp=标签位置。
+   3. TIMELINE：{when, what, why, hot}，hot=true 表示关键节点。
+   4. VERIFIED：{name, verdict, note}，verdict 含 <span class="tag">…</span>。
+   5. SOURCES：按产品分组，items 为 [来源类型, 链接HTML, 支撑字段]。
+   6. TODOS：[产品, 待确认说明]。
+===================================================================== */
+
+const PRODUCTS = [
+  {
+    name:"阿里云 ECS（经济型 e）", dev:"阿里云（阿里巴巴集团）", cat:"hyper",
+    score:9.2, avail:"free",
+    site:{label:"aliyun.com/product/ecs", url:"https://www.aliyun.com/product/ecs"},
+    free:"新用户免费试用：个人实名总额度 300 元、企业实名 660 元，每小时上限 0.833 元；中国内地每月另赠 20GB 免费公网流量；试用实例不支持 ICP 备案",
+    price:"经济型 e 2 核 2G/3M 带宽/40G 云盘 99 元/年（新购促销价）；通用型 u1 2 核 4G/5M 199 元/年（促销）",
+    basis:"共识区间 9.0–9.4；产品线最全、文档与备案配套最成熟",
+    note:"国内份额与产品线最完整的云厂商，入门档长期打百元内年付，配套备案、CDN、数据库、对象存储生态齐全；局限是促销价与续费价差明显，99 元/年多为新购首年价，且免费试用实例不能用于 ICP 备案。"
+  },
+  {
+    name:"阿里云 轻量应用服务器", dev:"阿里云（阿里巴巴集团）", cat:"light",
+    score:8.7, avail:"free",
+    site:{label:"aliyun.com/product/swas", url:"https://www.aliyun.com/product/swas"},
+    free:"与 ECS 免费试用同池计额度（个人 300 元 / 企业 660 元）；轻量独立免费档位与时长未单独公示，待确认",
+    price:"2 核 2G/200M 峰值带宽/50G 云盘 68 元/年（渠道与媒体口径抢先价）；日常约 108 元/年起",
+    basis:"共识区间 8.5–9.0；镜像市场与一键部署体验最成熟",
+    note:"把计算、存储与流量打包成套餐，配合应用镜像可几分钟建站，适合个人站长与轻量业务；局限是高带宽为峰值口径而非保底带宽，促销档位随活动周期变化，实际价格需以活动页为准。"
+  },
+  {
+    name:"腾讯云 CVM", dev:"腾讯云（腾讯）", cat:"hyper",
+    score:9.0, avail:"free",
+    site:{label:"cloud.tencent.com/product/cvm", url:"https://cloud.tencent.com/product/cvm"},
+    free:"免费体验：个人用户 2 核 2G/3M 免费 1 个月，部分机型体验期 7 天；活动档位按周期调整",
+    price:"蜂驰型 BF1 2 核 4G/5M 416 元/年（官网促销）；标准型 S5 2 核 4G 新购 199 元/年起",
+    basis:"共识区间 8.8–9.2；网络质量与备案资源规则最明确",
+    note:"国内第二大公有云，CVM 与轻量 Lighthouse 形成两档覆盖，中文文档与工单体系完备，备案资源要求写得很清楚；局限是新购与续费价差较大，备案用实例必须包年包月购买 3 个月以上且剩余有效期不少于 1 个月。"
+  },
+  {
+    name:"腾讯云 轻量应用服务器 Lighthouse", dev:"腾讯云（腾讯）", cat:"light",
+    score:8.5, avail:"paid",
+    site:{label:"cloud.tencent.com/product/lighthouse", url:"https://cloud.tencent.com/product/lighthouse"},
+    free:"无长期免费额度；有阶段性新人体验活动（档位与时长未公示，待确认）",
+    price:"4 核 4G/3M 档 109 元/年（渠道与媒体口径）；日常入门档以官网活动页为准",
+    basis:"共识区间 8.3–8.8；套餐简单、上手成本低，续费价差需留意",
+    note:"打包计费、开箱即用，适合建站、测试与小流量业务，控制台对新手友好；局限是同为轻量档但带宽与流量口径与阿里云不同，促销多为限时抢购、日常价高出一档。"
+  },
+  {
+    name:"华为云 ECS（通用型）", dev:"华为云（华为）", cat:"hyper",
+    score:8.8, avail:"free",
+    site:{label:"huaweicloud.com/product/ecs.html", url:"https://www.huaweicloud.com/product/ecs.html"},
+    free:"新用户可领取 ECS / Flexus 免费试用（1 个月档，具体机型与名额以活动页为准）",
+    price:"828 / 云上优选促销 1 核 2G 档 36 元/年起（限时，页面标注原价 395 元/年）；日常按规格计费",
+    basis:"共识区间 8.6–9.0；政企与信创适配强，促销力度大",
+    note:"产品线与政务、信创场景结合紧密，网络与安全能力扎实，限时促销价常低于同业；局限是部分促销机型为限时名额、原价与促销价落差大，长期价格需按挂牌价核算。"
+  },
+  {
+    name:"华为云 Flexus 应用服务器 L 实例", dev:"华为云（华为）", cat:"light",
+    score:8.3, avail:"free",
+    site:{label:"huaweicloud.com/product/flexus-l.html", url:"https://www.huaweicloud.com/product/flexus-l.html"},
+    free:"新用户可免费体验 1 个月，或以 36 元/年的体验价购买（机型、名额与时长以活动页为准）",
+    price:"体验价 36 元/1 年（限时，页面标注原价 395 元/年）；日常按规格与购买时长计费",
+    basis:"共识区间 8.1–8.5；面向轻量建站的套餐化实例，促销力度大",
+    note:"把计算、系统盘与带宽打包成适合建站、小程序后端与测试环境的套餐，配合免费 1 个月体验对新手较友好；局限是促销价与挂牌价落差大、限时限量，长期成本需按挂牌价核算，规格弹性弱于通用型 ECS。"
+  },
+  {
+    name:"百度智能云 BCC", dev:"百度智能云（百度）", cat:"hyper",
+    score:8.2, avail:"paid",
+    site:{label:"cloud.baidu.com/product/bcc.html", url:"https://cloud.baidu.com/product/bcc.html"},
+    free:"待确认（有阶段性新人体验活动，未公示统一免费额度）",
+    price:"待确认（官网未公示可引用的入门单价；渠道有「0.01 元/月体验」等非官方口径）",
+    basis:"共识区间 8.0–8.4；AI 与算力叙事强，零售定价透明度偏低",
+    note:"与百舸算力平台、文心大模型形成 AI 组合拳，在模型训练与推理场景有绑定优势；局限是云主机零售侧的公开促销与价格说明薄弱，个人开发者入口被弱化，采购需询价。"
+  },
+  {
+    name:"京东云 轻量云主机", dev:"京东云（京东集团）", cat:"light",
+    score:7.9, avail:"paid",
+    site:{label:"jdcloud.com/cn/products/lightweight-cloud-host", url:"https://www.jdcloud.com/cn/products/lightweight-cloud-host"},
+    free:"待确认（未公示统一免费额度）",
+    price:"2 核 8G/5M 148.5 元/月；2 核 4G 三年 528 元（约 14.7 元/月，渠道口径）",
+    basis:"共识区间 7.7–8.1；高配低价、长周期套餐诱人，生态配套较弱",
+    note:"以高内存配置打性价比，适合中小电商与建站，背靠京东零售场景；局限是产品生态与镜像市场不如头部两家，官方活动多以长周期套餐出现，短期弹性一般。"
+  },
+  {
+    name:"火山引擎 ECS", dev:"火山引擎（字节跳动）", cat:"hyper",
+    score:8.4, avail:"paid",
+    site:{label:"volcengine.com/product/ecs", url:"https://www.volcengine.com/product/ecs"},
+    free:"无公开免费额度；支持 7 天无理由退订（限部分产品）",
+    price:"云上建站套餐 2 核 2G/1M/40G 660.60 元/1 年（刊例价 1020 元/年）",
+    basis:"共识区间 8.2–8.6；与字节 AI 能力打通，零售定价高于大厂促销档",
+    note:"把云基础与豆包大模型、视频云能力打包，适合做 AI 应用与内容分发；局限是云主机零售侧促销力度小、入门档价格明显高于阿里云与腾讯云促销档，个人开发者优惠少。"
+  },
+  {
+    name:"天翼云 云主机", dev:"天翼云（中国电信）", cat:"hyper",
+    score:7.6, avail:"paid",
+    site:{label:"ctyun.cn", url:"https://www.ctyun.cn/"},
+    free:"待确认（未公示统一免费额度）",
+    price:"待确认（官网以属地化套餐与客户经理报价为主；渠道口径见「2 核 4G/1M 885 元/5 年」，未经官方公示）",
+    basis:"共识区间 7.4–7.8；央企背景与属地化服务强，公开零售价不透明",
+    note:"中国电信旗下云，政务、国企与教育医疗客户基础厚，属地化机房与集成能力强；局限是官网零售定价与促销信息稀少，多走商务报价，个人与小微开发者体验较弱。"
+  },
+  {
+    name:"移动云 云主机", dev:"移动云（中国移动）", cat:"hyper",
+    score:7.4, avail:"paid",
+    site:{label:"ecloud.10086.cn", url:"https://ecloud.10086.cn/"},
+    free:"待确认（未公示统一免费额度）",
+    price:"待确认（官网以区域套餐与企业报价为主，未公示可引用的入门单价）",
+    basis:"共识区间 7.2–7.6；算网融合与属地服务突出，零售透明度低",
+    note:"依托中国移动网络与算力网络（N 个中心节点 + 边缘节点）布局，政企与行业云项目多；局限是面向个人与中小客户的标准化产品与公开促销少，价格需商务确认。"
+  },
+  {
+    name:"联通云 云主机", dev:"联通云（中国联通）", cat:"hyper",
+    score:7.2, avail:"paid",
+    site:{label:"cloud.wo.cn", url:"https://cloud.wo.cn/"},
+    free:"待确认（未公示统一免费额度）",
+    price:"待确认（官网未见公开零售价目表，以政企集采与项目报价为主）",
+    basis:"共识区间 7.0–7.4；政企集采渠道为主，零售产品与促销信息最少",
+    note:"联通云以智算资源池与政企集成为主线，公开的云主机零售方案与价目表最少；局限是个人与中小客户难获得透明报价与自助开通体验，纳入本表主要用于口径对照。"
+  },
+  {
+    name:"AWS 中国（宁夏 / 北京）EC2", dev:"亚马逊云科技中国（西云数据 / 光环新网运营）", cat:"hyper",
+    score:8.6, avail:"free",
+    site:{label:"amazonaws.cn/ec2/pricing", url:"https://www.amazonaws.cn/ec2/pricing/"},
+    free:"新客 1 核 2G/60GB SSD 免费 3 个月（活动页标注 3 个月后约 130 元/月）；t4g.small 曾每月赠 750 小时免费（北京与宁夏额度分别计算，活动截止 2026-07-31）",
+    price:"按需 0.36119 元/vCPU·小时（Linux，北京/宁夏）；1 年期全预付 Compute Savings Plans 0.2655 元/vCPU·小时（约省 27%）",
+    basis:"共识区间 8.4–8.8；全球标准与计费口径最清晰，本地单价高于国内促销档",
+    note:"由西云数据（宁夏）与光环新网（北京）分别运营，产品矩阵与国际站一致且符合境内监管；局限是两区域独立计费、免费额度分区计算，同规格单价明显高于阿里云与腾讯云的促销档。"
+  },
+  {
+    name:"Azure 中国（世纪互联运营）", dev:"微软 Azure 中国（世纪互联运营）", cat:"hyper",
+    score:7.8, avail:"paid",
+    site:{label:"azure.cn", url:"https://www.azure.cn/"},
+    free:"待确认（国际站 $200 试用额度不适用于由世纪互联运营的中国区）",
+    price:"待确认（官网未公示零售价目表，以订阅与商务报价为主）",
+    basis:"共识区间 7.6–8.0；微软生态与混合云集成强，版本与促销滞后",
+    note:"由世纪互联独立运营，满足境内合规要求，与 Windows Server、Active Directory、SQL Server 生态集成好；局限是版本更新落后国际站、零售价格不透明、个人开发者支持弱。"
+  },
+  {
+    name:"金山云 云服务器 KEC", dev:"金山云（Kingsoft Cloud）", cat:"idc",
+    score:7.8, avail:"paid",
+    site:{label:"docs.ksyun.com/documents/707", url:"https://docs.ksyun.com/documents/707"},
+    free:"待确认（未检索到公开免费额度）",
+    price:"套餐 S6.1C 包年包月 116 元/月；按量付费 0.23 元/小时（同配置折合约 165.5 元/月）",
+    basis:"共识区间 7.6–8.0；计费文档透明、行业客户多，零售促销少",
+    note:"老牌独立云厂，视频、游戏与政务行业客户基础扎实，计费与配置调整规则在文档里写得很细；局限是面向个人与中小客户的促销少，入门档价格高于大厂促销档。"
+  },
+  {
+    name:"UCloud 轻量应用云主机 ULightHost", dev:"UCloud 优刻得", cat:"light",
+    score:7.3, avail:"paid",
+    site:{label:"ucloud.cn/site/product/ulighthost.html", url:"https://www.ucloud.cn/site/product/ulighthost.html"},
+    free:"待确认（未检索到公开免费额度）",
+    price:"待确认（官方文档仅说明轻量按套餐整体售卖、价格低于云主机 UHost，未公示具体套餐金额）",
+    basis:"共识区间 7.1–7.5；中立云定位清晰，公开报价更新慢",
+    note:"A 股上市的中立云厂商，不与客户业务竞争的中立定位受中小客户认可，轻量档打包网络与云盘更省心；局限是官网报价页更新滞后，实际套餐价需询价确认。"
+  },
+  {
+    name:"青云 QingCloud 云服务器", dev:"青云科技（QingCloud）", cat:"idc",
+    score:7.7, avail:"paid",
+    site:{label:"qingcloud.com/promotion", url:"https://www.qingcloud.com/promotion"},
+    free:"待确认（未检索到公开免费额度）",
+    price:"2026 年度促销：1 核 2G 100.32 元/年（页面标注直减 617.52 元）；其余档位促销价页面显示不完整，待确认",
+    basis:"共识区间 7.5–7.9；企业级架构与私有云能力强，零售促销力度一般",
+    note:"以企业级云与私有云交付见长，公有云侧促销价在一年里最低可到百元档；局限是零售侧活动周期短、档位说明不完整，个人开发者生态弱于大厂。"
+  },
+  {
+    name:"七牛云 云服务器 QVM", dev:"七牛云（Qiniu）", cat:"idc",
+    score:7.5, avail:"free",
+    site:{label:"qiniu.com/products/qvm", url:"https://www.qiniu.com/products/qvm"},
+    free:"官网提供「0 元主机」入口与免费体验活动（具体额度与时长以活动页为准）",
+    price:"年中大促 突发型 T6 109 元/年（日常价 198 元）；计算型 C6 8 核 16G 530.29 元/月（含 40GB 高效云盘、1M 带宽）",
+    basis:"共识区间 7.3–7.7；与对象存储/CDN 联动好，入门促销价极低",
+    note:"从对象存储与 CDN 起家，云主机与存储、分发打包对做媒体与素材站友好，促销期入门价可低到几十元；局限是云主机产品线深度不如专业云厂，高阶机型单价偏高。"
+  },
+  {
+    name:"西部数码 弹性云服务器", dev:"西部数码（west.cn）", cat:"idc",
+    score:7.0, avail:"paid",
+    site:{label:"west.cn/cloudhost", url:"https://www.west.cn/cloudhost/"},
+    free:"待确认（未检索到公开免费额度）",
+    price:"入门型 2 核 1G/80G/2M 115 元/月；2 核 2G/110G/3M 153 元/月；进阶型 2 核 4G 特价 1032 元/年（原价 1536 元）",
+    basis:"共识区间 6.8–7.2；24 年老牌 IDC、备案协助成熟，价格高于大厂",
+    note:"老牌域名与 IDC 服务商，多机房可选、支持独立 IP 加购（580 元/个/年），备案与域名一站式是主要优势；局限是挂牌价明显高于大厂云，带宽与高防需另行计费。"
+  },
+  {
+    name:"小鸟云 云服务器", dev:"小鸟云（niaoyun）", cat:"idc",
+    score:6.9, avail:"paid",
+    site:{label:"niaoyun.com", url:"https://www.niaoyun.com/"},
+    free:"待确认（官网未公示免费额度）",
+    price:"云服务器 49 元/月起；裸金属服务器 450 元/月起；云虚拟主机 7 元/月起",
+    basis:"共识区间 6.7–7.1；企业级定位与代理体系成熟，公开资料少",
+    note:"面向企业级云服务器与裸金属，主打性价比与渠道代理生态，裸金属档是同类里门槛较低的；局限是官网促销与 SLA、免费额度信息公示不足，规模与资质知名度低于大厂。"
+  },
+  {
+    name:"蓝队云 适配型云服务器", dev:"蓝队云（landui）", cat:"idc",
+    score:6.8, avail:"free",
+    site:{label:"landui.com", url:"https://www.landui.com/"},
+    free:"提供 3 天免费试用，满意后付款",
+    price:"标准型 1 核 2G 99 元/年；适配型 2 核 2G/50G SSD/10M 独享带宽 300 元/年（3 年 600 元，折合约 200 元/年）",
+    basis:"共识区间 6.6–7.0；同为百元档给到 10M 独享带宽，品牌知名度低",
+    note:"最大特点是在百元档给出 10M 独享带宽（而非共享或峰值口径），并提供 3 天免费试用；局限是品牌与合规资质知名度低于大厂，适合个人开发与轻量建站，重业务需自评风险。"
+  },
+  {
+    name:"恒创科技 香港云服务器", dev:"恒创科技（henghost）", cat:"idc",
+    score:7.1, avail:"paid",
+    site:{label:"henghost.com", url:"https://www.henghost.com/"},
+    free:"待确认（官网未公示免费试用额度）",
+    price:"香港入门云服务器 298 元/年（2026-09 金秋特惠）；高防云服务器 1352 元/月起",
+    basis:"共识区间 6.9–7.3；香港节点免备案与回国线路是核心卖点",
+    note:"以香港及海外节点为主，面向免备案与跨境业务，高防机型针对易被攻击的业务场景；局限是香港节点同配价格高于国内、数据落地与合规需自行评估，带宽多为共享口径。"
+  },
+  {
+    name:"景安网络 快云服务器", dev:"景安网络（zzidc）", cat:"idc",
+    score:6.7, avail:"paid",
+    site:{label:"zzidc.com/cloudhost", url:"https://www.zzidc.com/cloudhost/index"},
+    free:"1 元 30 天体验（个人用户专享，限时活动）",
+    price:"快云服务器 Ⅱ 型 2 核 2G/120G/3M 222 元/月（2220 元/年）；快云 VPS 基础型 原价 49 元/月",
+    basis:"共识区间 6.5–6.9；老牌 IDC 资质齐全，产品形态与价格偏传统",
+    note:"河南地区老牌 IDC，机房与备案协助成熟，多线机房可选择；局限是价格明显高于大厂云促销档，云主机与 VPS 两条产品线并存、计费口径需区分。"
+  },
+  {
+    name:"亿速云 云服务器 / 轻量", dev:"亿速云（yisu）", cat:"idc",
+    score:6.6, avail:"paid",
+    site:{label:"yisu.com", url:"https://www.yisu.com/"},
+    free:"待确认（未检索到公开免费额度）",
+    price:"云服务器 39 元/月起；轻量应用服务器 29 元/月起；海外轻量（日本/美国/德国）2 核 2G/6M 29 元/3 个月（促销）",
+    basis:"共识区间 6.4–6.8；低价与香港/美国节点便宜，线路稳定性波动",
+    note:"中小 IDC，主打低价与香港、美国、日本节点免备案，起售门槛是全表最低之一；局限是品牌规模小、促销价格变动频繁，线路稳定性和退款政策需自行核验资质与合同。"
+  },
+  {
+    name:"阿里云 免费试用（ECS 额度）", dev:"阿里云（阿里巴巴集团）", cat:"free",
+    score:8.0, avail:"free",
+    site:{label:"help.aliyun.com/zh/ecs/user-guide/ecs-free-trial", url:"https://help.aliyun.com/zh/ecs/user-guide/ecs-free-trial"},
+    free:"个人实名总免费额度 300 元、企业实名 660 元，用于抵扣 ECS 实例与系统盘费用，每小时上限 0.833 元；每月免费公网流量 20GB（中国内地）+ 200GB（非中国内地）",
+    price:"0 元（试用额度内）；超出额度按量计费，且免费试用实例不支持 ICP 备案",
+    basis:"共识区间 7.8–8.2；免费额度口径写得最清楚，限制也写得最清楚",
+    note:"本轮核验中免费额度口径最透明的方案：明确到元、明确到每小时上限、也明确写了「不支持备案」这一关键限制；局限是额度用尽或到期后必须主动释放实例，否则按量计费继续产生费用。"
+  },
+  {
+    name:"腾讯云 免费体验（CVM）", dev:"腾讯云（腾讯）", cat:"free",
+    score:7.8, avail:"free",
+    site:{label:"cloud.tencent.com/product/cvm", url:"https://cloud.tencent.com/product/cvm"},
+    free:"个人用户 2 核 2G/3M 免费 1 个月，部分机型体验期 7 天；活动档位与机型按周期调整",
+    price:"0 元（体验期内）；到期续用按 CVM 标准包年包月或按量计费",
+    basis:"共识区间 7.6–8.0；体验门槛低，但档位与时长随活动变动",
+    note:"面向个人开发者的一个月免费体验，配置够跑通建站与开发测试流程；局限是体验档位与时长不固定、无统一公示的额度金额，且体验实例同样不能作为备案资源。"
+  },
+  {
+    name:"AWS 中国 免费试用（新客）", dev:"亚马逊云科技中国（西云数据 / 光环新网运营）", cat:"free",
+    score:7.5, avail:"free",
+    site:{label:"amazonaws.cn/campaign/acts-cloudserver", url:"https://www.amazonaws.cn/campaign/acts-cloudserver/"},
+    free:"新客 1 核 2G/60GB SSD 免费 3 个月（活动页同时标注 3 个月后每月约 130 元）；t4g.small 每月 750 小时免费，北京与宁夏额度分别计算",
+    price:"前 3 个月 0 元；转正后约 130 元/月（活动页口径，按所选规格浮动）",
+    basis:"共识区间 7.3–7.7；面向中国区的免费档清晰，转正成本偏高",
+    note:"中国区专属免费档，适合验证 AWS 生态与合规部署方案；局限是转正价格明显高于国内厂商促销档，且北京与宁夏的免费使用量不互通，需要在账号层面分别规划。"
+  }
+];
+
+const PRICE_POINTS = [
+  {name:'华为云 ECS', x:3, y:8.8, free:true, lp:'left'},
+  {name:'华为云 Flexus L', x:3, y:8.3, free:true, lp:'right'},
+  {name:'阿里云轻量', x:5.7, y:8.7, free:true, lp:'top'},
+  {name:'七牛云 QVM', x:5.5, y:7.5, free:true, lp:'right'},
+  {name:'阿里云 ECS', x:8.25, y:9.2, free:true, lp:'right'},
+  {name:'蓝队云', x:8.25, y:6.8, free:true, lp:'right'},
+  {name:'青云', x:8.4, y:7.7, free:false, lp:'right'},
+  {name:'腾讯云轻量', x:9.1, y:8.5, free:false, lp:'top'},
+  {name:'京东云轻量', x:14.7, y:7.9, free:false, lp:'right'},
+  {name:'恒创科技', x:24.8, y:7.1, free:false, lp:'right'},
+  {name:'腾讯云 CVM', x:34.7, y:9.0, free:true, lp:'top'},
+  {name:'亿速云', x:39, y:6.6, free:false, lp:'left'},
+  {name:'景安网络', x:49, y:6.7, free:false, lp:'bottom'},
+  {name:'小鸟云', x:49, y:6.9, free:false, lp:'top'},
+  {name:'火山引擎 ECS', x:55, y:8.4, free:false, lp:'top'},
+  {name:'西部数码', x:115, y:7.0, free:false, lp:'bottom'},
+  {name:'金山云', x:116, y:7.8, free:false, lp:'top'}
+];
+
+const TIMELINE = [
+  {when:'2025.07.15', what:'AWS 把免费档改成按注册时间分层', why:'该日期之后注册的 AWS 账号适用 Free Plan——免费额度为 6 个月或 credit 用尽为止，含 t3.micro、t4g.small、c7i-flex.large 等机型；此前注册的账号保留 12 个月 t2/t3.micro 750 小时。免费试用从「人人 12 个月」变成分层制度，国内厂商随后普遍把免费档限定为「新产品用户」且不支持备案。', hot:true},
+  {when:'2026.01.27', what:'谷歌云宣布自 5 月 1 日起大幅调价', why:'谷歌宣布对 Google Cloud、CDN Interconnect、Peering 及 AI 与计算基础设施调价，其中北美部分网络服务单价从每 GB 0.04 美元涨到 0.08 美元（翻倍）。这是本轮全球云涨价周期的起点。', hot:false},
+  {when:'2026.03', what:'阿里云、百度智能云同日官宣涨价', why:'国内两家头部厂商同日宣布调价，叠加此前的谷歌云与欧洲 Hetzner、OVHcloud 提价，说明 AI 算力挤占通用算力后，涨价成为跨区域共同动作；同期中小 IDC 与轻量档仍以促销抢客。', hot:true},
+  {when:'2026.04.01', what:'欧洲厂商新价生效（Hetzner / OVHcloud）', why:'Hetzner 自 4 月 1 日起对云服务器、专用服务器与对象存储调价，OVHcloud 的 Public Cloud、Bare Metal 与 VPS 新价同样自 4 月 1 日起适用；出海业务若使用欧洲节点，成本在这一天整体上移。', hot:false},
+  {when:'2026.07', what:'AWS 中国区给出「2 核 2G 云服务器限时免费」', why:'亚马逊云科技中国官网活动页标注基于 Graviton 的 t4g.small 实例每月自动获得 750 小时免费，北京与宁夏使用量分别计算，活动页标注截止 2026-07-31；同期新客仍可享 1 核 2G/60GB SSD 免费 3 个月。', hot:false},
+  {when:'2026.07.30', what:'全球云基础设施单季支出达 1434 亿美元、同比 +43%', why:'Synergy Research 数据显示 2026 年二季度企业云基础设施服务支出达 1434 亿美元，同比增长 43%，为八年来最高增速、连续 11 个季度加速；AWS、微软、谷歌份额分别为 28%、20%、15%，GenAI 专用云服务同比增长 165%。这是涨价的宏观背景。', hot:true},
+  {when:'2026.09', what:'中小厂商与 IDC 云商集中促销', why:'七牛云年中囤货季把云服务器打到 2.7 折起（突发型 T6 109 元/年），青云年度促销 1 核 2G 100.32 元/年，恒创科技金秋特惠把香港入门云压到 298 元/年，蓝队云、亿速云等以低价与高带宽在短视频渠道获客。大厂涨价与中小厂补贴形成双轨价格结构。', hot:true}
+];
+
+const VERIFIED = [
+  {name:'又拍云', verdict:'<span class="tag">非此类产品</span>', note:'主业为 CDN、云存储与音视频处理，本轮检索其官网未发现对外售卖的云主机 / VPS 产品线，因此不进主表，仅作口径对照。信源：<a class="ext" href="https://www.upyun.com/">又拍云官网</a>。'},
+  {name:'「雨云」「蓝夜科技」等新面孔', verdict:'<span class="tag">待确认</span>', note:'短视频与渠道内容把雨云、蓝夜科技列为 2026 年 9—10 月云服务器横评的新成员，卖点是「千兆带宽 + 一键部署 300 多款游戏面板」；但未检索到官方资质公示（IDC/ISP 经营许可）与官网价目表，按未核验处理，不进主表、不作价格依据。信源：<a class="ext" href="https://www.iesdouyin.com/share/video/7693295591400475942">渠道横评视频（推广性质，仅作线索）</a>。'},
+  {name:'「浪浪云」等渠道推荐云商', verdict:'<span class="tag">待确认</span>', note:'渠道内容推荐其「续费与首购同价、香港与海外回国线路好」，但未检索到官方站点、资质与公示价目，无法核验在营状态与所有权，不进主表。信源：<a class="ext" href="https://www.iesdouyin.com/share/video/7659963036135902490">渠道内容（推广性质，仅作线索）</a>。'},
+  {name:'「备案专用主机」类商品（如卡尔云）', verdict:'<span class="tag">待确认</span>', note:'渠道内容以「域名备案专用主机、含备案码、¥30 起/年」为卖点；备案码本身由接入商按工信部流程发放，与「买主机送备案码」的表述不符，且未核验到官方资质，按待确认处理。信源：<a class="ext" href="https://www.iesdouyin.com/share/video/7673111327003871921">渠道内容（推广性质，仅作线索）</a>。'},
+  {name:'以「永久免费 VPS」「免费云服务器」为名的聚合站与跳转页', verdict:'<span class="tag">仿冒站</span>', note:'此类页面通常由第三方域名承载，用「永久免费」「无限流量」吸引注册后再要求充值或实名，既非厂商官方域名也无法对应任何厂商的官方定价页。本轮判定依据为域名与厂商公开域名不一致，未纳入信源。'},
+  {name:'声称「低于官网价」的大厂云主机代理页', verdict:'<span class="tag">仿冒站</span>', note:'电商与短视频渠道存在以低于官网价售卖阿里云、腾讯云、华为云主机的第三方代理页。此类页面非官方渠道，价格、续费与服务保障均无从核验，本轮仅采纳厂商官方域名与官方文档作为价格依据。'},
+  {name:'AWS 中国区（宁夏 / 北京）', verdict:'<span class="tag">有产品，多线并行</span>', note:'由西云数据（宁夏区域）与光环新网（北京区域）分别运营，两个区域的实例价格存在差异，免费试用使用量也分别计算；国际站与国内站账号体系、促销互不通用，采购时必须确认落在哪个运营方。信源：<a class="ext" href="https://www.amazonaws.cn/ec2/pricing/">Amazon EC2 中国区定价</a>、<a class="ext" href="https://www.amazonaws.cn/campaign/acts-cloudserver/">中国区免费活动页</a>。'},
+  {name:'Azure 中国（世纪互联运营）', verdict:'<span class="tag">有产品</span>', note:'中国区由世纪互联独立运营，与国际站版本、区域与促销不同步；国际站的 $200 新账号试用额度不适用于中国区。本轮未在中国区官网取得可引用的零售单价，故价格标为待确认。信源：<a class="ext" href="https://www.azure.cn/">Azure 中国官网</a>。'},
+  {name:'小鸟云「云虚拟主机」', verdict:'<span class="tag">非本表口径</span>', note:'云虚拟主机（7 元/月起）属共享型主机，与云服务器 / VPS 不是同一品类，本表仅收录其云服务器与裸金属产品线，避免把不同商品混入同一价格排序。信源：<a class="ext" href="https://www.niaoyun.com/">小鸟云官网</a>。'},
+  {name:'免费试用实例作为备案资源', verdict:'<span class="tag">部分具备，待确认</span>', note:'阿里云明确 ECS 免费试用不支持 ICP 备案；腾讯云要求备案用实例为包年包月且购买 3 个月以上、备案期间剩余有效期不少于 1 个月。其余厂商的试用实例是否可备案本轮未逐一取得官方口径，按待确认处理。信源：<a class="ext" href="https://help.aliyun.com/zh/ecs/user-guide/ecs-free-trial">阿里云 ECS 免费试用说明</a>、<a class="ext" href="https://cloud.tencent.com/document/product/243/18908">腾讯云备案云资源要求</a>。'}
+];
+
+const SOURCES = [
+  {p:"阿里云 ECS / 轻量应用服务器", items:[
+    ['官方站点','<a class="ext" href="https://www.aliyun.com/product/ecs">阿里云云服务器 ECS 产品页</a>','官方入口、产品线'],
+    ['官方文档','<a class="ext" href="https://help.aliyun.com/zh/ecs/user-guide/ecs-free-trial">阿里云帮助中心：ECS 试用攻略</a>','免费额度（个人 300 元 / 企业 660 元、每小时 0.833 元上限、每月 20GB 公网流量）、不支持备案'],
+    ['官方文档','<a class="ext" href="https://help.aliyun.com/zh/icp-filing/basic-icp-service/support/server-check-faq">阿里云备案服务码获取与使用 FAQ</a>','只有中国内地节点服务器可备案'],
+    ['科技媒体','<a class="ext" href="https://developer.aliyun.com/article/1766982">阿里云开发者社区：2026 年 ECS 收费标准与活动价格表</a>','包年包月 / 按量付费价格口径']
+  ]},
+  {p:"腾讯云 CVM / 轻量 Lighthouse", items:[
+    ['官方站点','<a class="ext" href="https://cloud.tencent.com/product/cvm">腾讯云云服务器 CVM 产品页</a>','官方入口、免费体验档位'],
+    ['官方站点','<a class="ext" href="https://cloud.tencent.com/product/lighthouse">腾讯云轻量应用服务器产品页</a>','轻量档配置与价格口径'],
+    ['官方文档','<a class="ext" href="https://cloud.tencent.com/document/product/243/18908">腾讯云：备案云资源要求</a>','备案需包年包月 3 个月以上且剩余有效期 ≥1 个月'],
+    ['官方文档','<a class="ext" href="https://cloud.tencent.com/document/faq/243/19630">腾讯云：是否需要备案</a>','指向中国境内服务器的网站需备案']
+  ]},
+  {p:"华为云 ECS / Flexus", items:[
+    ['官方站点','<a class="ext" href="https://www.huaweicloud.com/product/ecs.html">华为云弹性云服务器 ECS 产品页</a>','官方入口、规格与促销'],
+    ['官方站点','<a class="ext" href="https://www.huaweicloud.com/product/flexus-l.html">华为云 Flexus 应用服务器 L 实例</a>','免费试用与体验价口径'],
+    ['官方文档','<a class="ext" href="https://support.huaweicloud.com/icp_faq/icp_05_0145.html">华为云 ICP 备案常见问题</a>','大陆节点服务器必须先备案']
+  ]},
+  {p:"百度智能云 BCC", items:[
+    ['官方站点','<a class="ext" href="https://cloud.baidu.com/product/bcc.html">百度智能云云服务器 BCC 产品页</a>','官方入口、产品定位'],
+    ['官方站点','<a class="ext" href="https://cloud.baidu.com/">百度智能云官网</a>','公司主体与产品矩阵']
+  ]},
+  {p:"京东云 轻量云主机", items:[
+    ['官方站点','<a class="ext" href="https://www.jdcloud.com/cn/products/lightweight-cloud-host">京东云轻量云主机产品页</a>','官方入口、规格口径'],
+    ['用户社区','<a class="ext" href="https://www.iesdouyin.com/share/video/7693295591400475942">渠道云服务器横评（推广性质）</a>','2 核 4G 三年 528 元等促销口径（仅作线索）'],
+    ['官方站点','<a class="ext" href="https://www.jdcloud.com/">京东云官网</a>','公司主体与产品矩阵']
+  ]},
+  {p:"火山引擎 ECS", items:[
+    ['官方站点','<a class="ext" href="https://www.volcengine.com/product/ecs">火山引擎云服务器 ECS 产品页</a>','官方入口、套餐与退订规则'],
+    ['官方文档','<a class="ext" href="https://www.volcengine.com/docs/6420/104524">火山引擎文档中心：实例计费说明</a>','按量与包年包月计费口径']
+  ]},
+  {p:"天翼云 / 移动云 / 联通云", items:[
+    ['官方站点','<a class="ext" href="https://www.ctyun.cn/">天翼云官网</a>','官方入口、产品范围'],
+    ['官方站点','<a class="ext" href="https://ecloud.10086.cn/">移动云官网</a>','官方入口、产品范围'],
+    ['官方站点','<a class="ext" href="https://cloud.wo.cn/">联通云官网</a>','官方入口、产品范围']
+  ]},
+  {p:"AWS 中国（宁夏 / 北京）", items:[
+    ['官方站点','<a class="ext" href="https://www.amazonaws.cn/ec2/pricing/">Amazon EC2 中国区定价</a>','按需单价、北京与宁夏区域差异'],
+    ['官方站点','<a class="ext" href="https://www.amazonaws.cn/campaign/acts-cloudserver/">亚马逊云科技中国区免费活动页</a>','新客 3 个月免费、t4g.small 每月 750 小时'],
+    ['官方站点','<a class="ext" href="https://aws.amazon.com/cn/campaigns/aws-cloudserver/">AWS 云服务器免费活动（国际站）</a>','免费档与转正价格口径']
+  ]},
+  {p:"Azure 中国（世纪互联）", items:[
+    ['官方站点','<a class="ext" href="https://www.azure.cn/">Azure 中国官网</a>','运营主体（世纪互联）、产品范围'],
+    ['官方站点','<a class="ext" href="https://azure.microsoft.com/en-us/pricing/free-services/">Azure 免费服务（国际站）</a>','国际站免费额度口径（不适用于中国区）']
+  ]},
+  {p:"金山云", items:[
+    ['官方文档','<a class="ext" href="https://docs.ksyun.com/documents/707">金山云文档：云服务器计费方式</a>','套餐 S6.1C 116 元/月、按量 0.23 元/小时'],
+    ['官方站点','<a class="ext" href="https://www.ksyun.com/">金山云官网</a>','公司主体与产品矩阵']
+  ]},
+  {p:"UCloud 优刻得", items:[
+    ['官方站点','<a class="ext" href="https://www.ucloud.cn/site/product/ulighthost.html">UCloud 轻量应用云主机 ULightHost</a>','产品定位与打包计费口径'],
+    ['官方文档','<a class="ext" href="https://docs.ucloud.cn/ulhost/mdToPdf/ulhost.pdf">UCloud 轻量应用云主机产品文档</a>','与云主机 UHost 的差异、带宽计费口径']
+  ]},
+  {p:"青云科技", items:[
+    ['官方站点','<a class="ext" href="https://www.qingcloud.com/promotion">青云 2026 年公有云年度促销</a>','1 核 2G 100.32 元/年等促销价'],
+    ['官方站点','<a class="ext" href="https://www.qingcloud.com/">青云科技官网</a>','公司主体与产品线']
+  ]},
+  {p:"七牛云", items:[
+    ['官方站点','<a class="ext" href="https://www.qiniu.com/products/qvm">七牛云云服务器 QVM 产品页</a>','机型、计算型 C6 530.29 元/月'],
+    ['官方站点','<a class="ext" href="https://marketing.qiniu.com/activity/2026spring">七牛云 2026 年中促销页</a>','突发型 T6 109 元/年（日常价 198 元）、低至 2.7 折']
+  ]},
+  {p:"西部数码", items:[
+    ['官方站点','<a class="ext" href="https://www.west.cn/cloudhost/">西部数码弹性云服务器</a>','入门型 115 元/月、2 核 2G 153 元/月、独立 IP 580 元/个/年'],
+    ['官方站点','<a class="ext" href="https://west.cn">西部数码官网首页</a>','进阶型 2 核 4G 特价 1032 元/年（原价 1536 元）']
+  ]},
+  {p:"小鸟云", items:[
+    ['官方站点','<a class="ext" href="https://www.niaoyun.com/">小鸟云官网</a>','云服务器 49 元/月起、裸金属 450 元/月起、云虚拟主机 7 元/月起'],
+    ['官方站点','<a class="ext" href="https://www.niaoyun.com/?__view_type=pc">小鸟云产品中心（PC 版）</a>','产品分类与代理政策']
+  ]},
+  {p:"蓝队云", items:[
+    ['官方站点','<a class="ext" href="https://www.landui.com/docs-13169">蓝队云：适配型云服务器说明</a>','2 核 2G/50G SSD/10M 独享 300 元/年、3 年 600 元'],
+    ['官方站点','<a class="ext" href="https://www.landui.com/docs-13312">蓝队云：2026 年高性价比云服务器推荐</a>','标准型 1 核 2G 低至 99 元/年'],
+    ['官方站点','<a class="ext" href="https://api.landui.com/">蓝队云官网（API 域名入口）</a>','3 天免费试用、满意后付款']
+  ]},
+  {p:"恒创科技", items:[
+    ['官方站点','<a class="ext" href="https://www.henghost.com/">恒创科技官网</a>','香港节点、高防云服务器产品线'],
+    ['科技媒体','<a class="ext" href="https://www.laozuo.org/33426.html">老左笔记：2026 年恒创科技云服务器优惠汇总</a>','香港入门云年付 298 元、3 年送 1 年活动（第三方汇总）']
+  ]},
+  {p:"景安网络", items:[
+    ['官方站点','<a class="ext" href="https://www.zzidc.com/cloudhost/index">景安网络：快云服务器</a>','Ⅱ 型 2 核 2G/120G/3M 222 元/月、2220 元/年'],
+    ['官方站点','<a class="ext" href="https://www.zzidc.com/main/huodong/oneYuanVps/spreadid_316482_hdName_oneYuanVps.html">景安网络：1 元上云活动页</a>','1 元 30 天体验、快云 VPS 基础型原价 49 元/月']
+  ]},
+  {p:"亿速云", items:[
+    ['官方站点','<a class="ext" href="https://www.yisu.com/">亿速云官网</a>','云服务器 39 元/月起、轻量 29 元/月起'],
+    ['官方站点','<a class="ext" href="https://m.yisu.com/huodong/2024618.html">亿速云促销活动页</a>','海外轻量（日本/美国/德国）2 核 2G/6M 29 元/3 个月']
+  ]},
+  {p:"免费额度与备案要求（跨厂商对照）", items:[
+    ['官方文档','<a class="ext" href="https://help.aliyun.com/zh/user-center/user-guide/manage-free-trials">阿里云免费试用规则</a>','「产品新用户」定义、试用资格限制'],
+    ['官方文档','<a class="ext" href="https://support.huaweicloud.com/icp_faq/icp_05_0145.html">华为云：我需要在华为云备案吗</a>','大陆节点建站必须备案、境外节点不需要'],
+    ['科技媒体','<a class="ext" href="https://developer.cloud.tencent.com/article/2749387">腾讯云开发者社区：2026 年云服务器推荐横评</a>','跨厂商入门档价格与配置对照（第三方口径）']
+  ]},
+  {p:"时间线与市场背景", items:[
+    ['科技媒体','<a class="ext" href="https://www.srgresearch.com/articles/q2-cloud-market-passes-143-billion-highest-growth-rate-in-eight-years">Synergy Research：Q2 云市场超 1430 亿美元、八年最高增速</a>','2026 Q2 支出 1434 亿美元、同比 +43%、厂商份额'],
+    ['科技媒体','<a class="ext" href="https://www.jiemian.com/article/14130119.html">界面新闻：算力需求攀升，百度智能云、阿里云同日官宣涨价</a>','谷歌云 5 月 1 日调价、Hetzner 4 月 1 日调价、国内厂商涨价'],
+    ['科技媒体','<a class="ext" href="https://www.crn.com/news/cloud/2026/cloud-market-share-q2-2026-google-gains-share-as-aws-falls">CRN：Cloud Market Share Q2 2026</a>','厂商份额与市场增速交叉印证']
+  ]}
+];
+
+const TODOS = [
+  ["天翼云 / 移动云 / 联通云 云主机零售价","三家运营商云的官网均以属地化套餐与客户经理报价为主，未公示可引用的入门单价；渠道口径（如「2 核 4G/1M 885 元/5 年」）未经官方公示，不写入价格字段。"],
+  ["Azure 中国（世纪互联）价格","中国区官网未公示零售价目表；国际站 $200 新账号试用额度不适用于中国区，采购需以订阅报价为准。"],
+  ["百度智能云 BCC 入门价","官网未公示可引用的入门挂单价；渠道流传「0.01 元/月体验」等说法缺乏官方页面支撑，按待确认处理。"],
+  ["UCloud ULightHost 套餐价","官方文档仅说明轻量按套餐整体售卖、价格低于云主机 UHost，未给出具体套餐金额，需询价。"],
+  ["青云 2 核 8G 档促销价","促销页对部分档位显示不完整（约 62X 元/年），实际价格以活动页实时显示为准。"],
+  ["又拍云","未检索到在售云主机 / VPS 产品线；若存在云主机业务线，需官方页面确认后补录。"],
+  ["恒创科技免费额度","官网未公示免费试用额度，仅有促销年付价，免费档待确认。"],
+  ["小鸟云免费额度与 SLA","官网未公示免费额度、可用性承诺与退款条款，需以合同为准。"],
+  ["西部数码券后价与挂牌价","官网同时出现挂牌价 170 元/月与券后价 136 元/月、98 元/月等口径，实际成交价以订单页为准。"],
+  ["阿里云轻量 68 元/年（200M 峰值带宽）","该价格来自渠道与媒体口径，官网促销档位随活动周期变化，带宽为峰值而非保底口径，需以活动页为准。"],
+  ["腾讯云轻量 4 核 4G 109 元/年","来自渠道与媒体口径；官网促销价按周期变动，续费价另计。"],
+  ["华为云 36 元/年促销价","为限时促销价（页面标注原价 395 元/年），名额与周期受限，长期价格按挂牌价核算。"],
+  ["京东云 2 核 4G 三年 528 元","渠道口径，官网未公示该长周期套餐，需以京东云活动页为准。"],
+  ["景安网络 1 元 30 天体验","活动页更新时间较早（页面标注 2026-06），是否仍在进行、是否限新用户需确认。"],
+  ["试用实例的备案资格","阿里云明确 ECS 免费试用不支持 ICP 备案；腾讯云要求包年包月 3 个月以上且剩余有效期 ≥1 个月。其余厂商试用实例能否用于备案，本轮未逐一取得官方口径。"],
+  ["AWS 中国 t4g.small 免费活动是否延期","活动页标注截止 2026-07-31，到期后是否延续或调整未确认；北京与宁夏额度分别计算的规则需在账号层面复核。"]
+];
+
+/* ================= 渲染：总表 ================= */
+const CAT = {hyper:'大厂云', idc:'IDC 云商', light:'轻量应用', free:'免费用量'};
+const CAT_TAG = {hyper:'cat-video', idc:'cat-live', light:'cat-clone', free:'cat-interactive'};
+const tableEl = document.getElementById('mainTable');
+PRODUCTS.forEach(function(p){
+  const availTag = p.avail === 'free'
+    ? '<span class="tag free">可免费使用</span>'
+    : '<span class="tag paid">付费或仅 API</span>';
+  const catTag = '<span class="tag ' + CAT_TAG[p.cat] + '">' + CAT[p.cat] + '</span>';
+  const scoreHtml = (p.score === null)
+    ? '<span class="score na">—</span>'
+    : '<span class="score">' + p.score.toFixed(1) + '</span>';
+  const priceHtml = p.price + (p.cny ? '<span class="note-inline" style="display:block;margin-top:3px">' + p.cny + '</span>' : '');
+  const tr = document.createElement('tr');
+  tr.innerHTML =
+    '<td data-label="产品 / 开发方"><span class="pname">' + p.name + '</span><span class="dev">' + p.dev + '</span><span style="display:block;margin-top:6px">' + catTag + availTag + '</span></td>' +
+    '<td data-label="评分">' + scoreHtml + '</td>' +
+    '<td data-label="评分依据"><span class="basis">' + p.basis + '</span></td>' +
+    '<td data-label="官方入口"><a class="ext" href="' + p.site.url + '">' + p.site.label + '</a></td>' +
+    '<td data-label="免费额度">' + p.free + '</td>' +
+    '<td data-label="价格">' + priceHtml + '</td>' +
+    '<td data-label="特点与局限">' + p.note + '</td>';
+  tableEl.appendChild(tr);
+});
+document.getElementById('tableCaption').textContent =
+  '注：评分为主观共识评分（满分 10），非厂商官方指标。价格与免费额度均以 2026-10-08 公开信息为准；标注「待确认」表示本轮未取得可靠官方口径。';
+
+/* ================= 渲染：时间线 ================= */
+const tlEl = document.getElementById('timeline');
+TIMELINE.forEach(function(t){
+  var d = document.createElement('div');
+  d.className = 'tnode' + (t.hot ? ' hot' : '');
+  d.innerHTML = '<div class="when">' + t.when + '</div><div class="axis"><i class="dot"></i></div>' +
+                '<div class="body"><p class="what">' + t.what + '</p><p class="why">' + t.why + '</p></div>';
+  tlEl.appendChild(d);
+});
+
+/* ================= 渲染：核验表 ================= */
+const vEl = document.getElementById('verifyTable');
+VERIFIED.forEach(function(v){
+  var tr = document.createElement('tr');
+  tr.innerHTML = '<td data-label="厂商 / 产品"><span class="pname">' + v.name + '</span></td>' +
+                 '<td data-label="核验结论">' + v.verdict + '</td>' +
+                 '<td data-label="说明">' + v.note + '</td>';
+  vEl.appendChild(tr);
+});
+
+/* ================= 渲染：信源索引 ================= */
+const srcEl = document.getElementById('sourceIndex');
+SOURCES.forEach(function(g){
+  var h = document.createElement('div');
+  h.className = 'srcgrp';
+  var rows = g.items.map(function(it){
+    var link = /^https?:/.test(it[1]) ? '<a class="ext" href="' + it[1] + '">' + it[1] + '</a>' : it[1];
+    link = link.replace(/・/g, '<br>');
+    return '<li class="srcitem">' +
+           '<span class="srclabel">' + it[0] + '</span>' +
+           '<span class="srcbody">' + link +
+           '<span class="srcfield">支撑字段：' + it[2] + '</span></span></li>';
+  }).join('');
+  h.innerHTML = '<h3>' + g.p + '</h3><ul class="srclist">' + rows + '</ul>';
+  srcEl.appendChild(h);
+});
+
+/* ================= 渲染：待确认 ================= */
+const todoEl = document.getElementById('todoList');
+TODOS.forEach(function(t, i){
+  var d = document.createElement('div');
+  d.className = 't';
+  d.innerHTML = '<div class="n">' + (i + 1) + '</div><div class="c"><b>' + t[0] + '：</b>' + t[1] + '</div>';
+  todoEl.appendChild(d);
+});
+
+/* ================= ECharts ================= */
+var C = {primary:'#12564C', accent:'#C4762A', ink:'#1F2329', ink2:'#646A73', ink3:'#8A939B', line:'#DEE3E8'};
+var CAT_COLOR = {hyper:'#12564C', idc:'#C4762A', light:'#4E7BA6', free:'#7C8A5A'};
+var FONT = '"Noto Sans SC","PingFang SC","Microsoft YaHei",sans-serif';
+
+function renderScore(){
+  var el = document.getElementById('chartScore');
+  if(!el || typeof echarts === 'undefined') return;
+  var data = PRODUCTS.filter(function(p){return p.score !== null;})
+                     .slice().sort(function(a,b){return a.score - b.score;});
+  var chart = echarts.init(el);
+  chart.setOption({
+    grid:{left:8, right:72, top:18, bottom:34, containLabel:true},
+    tooltip:{
+      trigger:'axis', axisPointer:{type:'shadow'},
+      backgroundColor:'#fff', borderColor:C.line, borderWidth:1,
+      textStyle:{color:C.ink, fontFamily:FONT, fontSize:14},
+      formatter:function(ps){
+        var i = ps[0].dataIndex, p = data[i];
+        return '<b>' + p.name + '</b><br/>综合评分：' + p.score.toFixed(1) + ' / 10<br/>品类：' + CAT[p.cat] +
+               '<br/>开发者：' + p.dev + '<br/>评分依据：' + p.basis;
+      }
+    },
+    xAxis:{
+      type:'value', min:0, max:10, splitNumber:5,
+      axisLine:{show:false}, axisTick:{show:false},
+      splitLine:{lineStyle:{color:'#EDF1F4'}},
+      axisLabel:{color:C.ink3, fontFamily:FONT, fontSize:13}
+    },
+    yAxis:{
+      type:'category',
+      data:data.map(function(p){return p.name;}),
+      axisLine:{show:false}, axisTick:{show:false},
+      axisLabel:{color:C.ink, fontFamily:FONT, fontSize:13.5}
+    },
+    series:[{
+      type:'bar', barWidth:'58%',
+      data:data.map(function(p){
+        return {
+          value:p.score,
+          itemStyle:{color:CAT_COLOR[p.cat], borderRadius:[0,3,3,0]}
+        };
+      }),
+      label:{
+        show:true, position:'right', fontFamily:FONT, fontSize:13.5,
+        fontWeight:'bold', color:C.ink, formatter:function(ps){return ps.value.toFixed(1);}
+      }
+    }]
+  });
+  window.addEventListener('resize', function(){chart.resize();});
+}
+
+function renderPrice(){
+  var el = document.getElementById('chartPrice');
+  if(!el || typeof echarts === 'undefined' || !PRICE_POINTS.length) return;
+  var chart = echarts.init(el);
+  chart.setOption({
+    grid:{left:8, right:40, top:26, bottom:56, containLabel:true},
+    tooltip:{
+      trigger:'item',
+      backgroundColor:'#fff', borderColor:C.line, borderWidth:1,
+      textStyle:{color:C.ink, fontFamily:FONT, fontSize:14},
+      formatter:function(ps){
+        var d = ps.data, v = d.value;
+        return '<b>' + d.name + '</b><br/>最低付费月费：' + (v[0] === 0 ? '0（完全免费）' : '¥' + v[0] + '/月') +
+               '<br/>综合评分：' + v[1].toFixed(1);
+      }
+    },
+    xAxis:{
+      type:'value', min:-6, max:132,
+      axisLine:{lineStyle:{color:C.line}}, axisTick:{show:false},
+      splitLine:{lineStyle:{color:'#EDF1F4'}},
+      axisLabel:{color:C.ink3, fontFamily:FONT, fontSize:13, formatter:'{value}'},
+      name:'最低付费月费（元）', nameLocation:'middle', nameGap:34,
+      nameTextStyle:{color:C.ink2, fontFamily:FONT, fontSize:13}
+    },
+    yAxis:{
+      type:'value', min:6.4, max:9.4, splitNumber:5,
+      axisLine:{show:false}, axisTick:{show:false},
+      splitLine:{lineStyle:{color:'#EDF1F4'}},
+      axisLabel:{color:C.ink3, fontFamily:FONT, fontSize:13},
+      name:'综合评分', nameTextStyle:{color:C.ink2, fontFamily:FONT, fontSize:13}
+    },
+    series:[{
+      type:'scatter',
+      symbolSize:16,
+      data:PRICE_POINTS.map(function(p){
+        return {
+          name:p.name,
+          value:[p.x, p.y],
+          free:p.free,
+          label:{position:p.lp, distance:10}
+        };
+      }),
+      itemStyle:{
+        color:function(ps){return ps.data.free ? C.primary : C.accent;},
+        borderColor:'#fff', borderWidth:1.5
+      },
+      label:{
+        show:true, fontFamily:FONT, fontSize:12.5, color:C.ink,
+        formatter:function(ps){return ps.data.name;}
+      },
+      markLine:{
+        silent:true, symbol:'none',
+        lineStyle:{color:C.primary, type:'dashed', width:1, opacity:.55},
+        label:{show:true, position:'insideEndTop', fontFamily:FONT, fontSize:12, color:C.primary,
+               formatter:'完全免费区'},
+        data:[{xAxis:0}]
+      }
+    }]
+  });
+  window.addEventListener('resize', function(){chart.resize();});
+}
+
+renderScore();
+renderPrice();
+</script>
+
+</main>
+
+</body>
+</html>
