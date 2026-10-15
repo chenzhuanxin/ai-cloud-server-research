@@ -1,3 +1,5 @@
+<p align="center"><img src="assets/logo.png" width="120" alt="ai-cloud-server-research"></p>
+
 # 国内外云服务器产品调研（2026-10）
 
 覆盖 **中国大陆 27 项 + 海外 22 项** 云服务器产品（IaaS 云主机 / VPS / 轻量应用服务器），四品类全覆盖：大厂云、IDC 与独立云商、轻量应用、免费用量档。
